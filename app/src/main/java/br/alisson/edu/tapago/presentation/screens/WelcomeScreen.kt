@@ -28,7 +28,10 @@ import br.alisson.edu.tapago.presentation.components.ButtonVariant
 import br.alisson.edu.tapago.presentation.components.CustomButton
 
 @Composable
-fun WelcomeScreen(navigateToLogin: () -> Unit) {
+fun WelcomeScreen(
+    navigateToLogin: () -> Unit,
+    navigateToSignup: () -> Unit
+) {
     Surface (
         modifier = Modifier.windowInsetsPadding(insets = WindowInsets.systemBars),
         color = MaterialTheme.colorScheme.primaryContainer,
@@ -84,7 +87,7 @@ fun WelcomeScreen(navigateToLogin: () -> Unit) {
                     )
                     CustomButton(
                         title = "Cadastro",
-                        onClick = {},
+                        onClick = navigateToSignup,
                         variant = ButtonVariant.MUTED,
                         disabled = false,
                         modifier = Modifier.weight(1f)

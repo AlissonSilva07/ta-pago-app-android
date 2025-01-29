@@ -22,16 +22,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.alisson.edu.tapago.R
 import br.alisson.edu.tapago.presentation.components.ButtonVariant
 import br.alisson.edu.tapago.presentation.components.CustomButton
 
-@Preview(device = Devices.PIXEL_6)
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(navigateToLogin: () -> Unit) {
     Surface (
         modifier = Modifier.windowInsetsPadding(insets = WindowInsets.systemBars),
         color = MaterialTheme.colorScheme.primaryContainer,
@@ -79,7 +76,7 @@ fun WelcomeScreen() {
                 ) {
                     CustomButton(
                         title = "Login",
-                        onClick = {},
+                        onClick = navigateToLogin,
                         variant = ButtonVariant.DEFAULT,
                         disabled = false,
                         modifier = Modifier.weight(1f)

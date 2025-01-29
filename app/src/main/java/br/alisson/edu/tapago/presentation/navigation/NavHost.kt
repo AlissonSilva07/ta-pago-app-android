@@ -19,13 +19,15 @@ fun AppNavHost() {
         composable(Screen.Splash.route) {
             SplashScreen(navigateToWelcome = {
                 navController.navigate(Screen.Welcome.route) {
-                    popUpTo("splash") { inclusive = true }
+                    popUpTo(Screen.Splash.route) { inclusive = true }
                 }
             })
         }
 
         composable(Screen.Welcome.route) {
-            WelcomeScreen()
+            WelcomeScreen(navigateToLogin = {
+                navController.navigate(Screen.Login.route)
+            })
         }
 
         composable(Screen.Login.route) {

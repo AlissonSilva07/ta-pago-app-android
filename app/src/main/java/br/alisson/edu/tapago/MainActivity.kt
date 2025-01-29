@@ -7,9 +7,6 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBarItemColors
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import br.alisson.edu.tapago.presentation.navigation.AppNavHost
 import com.example.compose.TaPagoTheme
@@ -24,7 +21,7 @@ class MainActivity : ComponentActivity() {
             navigationBarStyle = SystemBarStyle.dark(scrim = primaryContainerLight.toArgb())
         )
         setContent {
-            TaPagoTheme(darkTheme = false) {
+            TaPagoTheme(darkTheme = false, dynamicColor = false) {
                 AppNavHost()
             }
         }

@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.presentation.components
+package br.alisson.edu.tapago.core.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

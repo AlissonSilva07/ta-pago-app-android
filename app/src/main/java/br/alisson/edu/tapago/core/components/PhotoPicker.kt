@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.presentation.components
+package br.alisson.edu.tapago.core.components
 
 import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher

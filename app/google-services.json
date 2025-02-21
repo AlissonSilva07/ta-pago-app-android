@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "159665577019",
+    "firebase_url": "https://ta-pago-app-6d455-default-rtdb.firebaseio.com",
+    "project_id": "ta-pago-app-6d455",
+    "storage_bucket": "ta-pago-app-6d455.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159665577019:android:b3fe918ffca24d1b60901e",
+        "android_client_info": {
+          "package_name": "com.alisson.tapagoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159665577019-bnp48ilhgtol71c1brdc573k7e5uc087.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alisson.tapagoapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "159665577019-i9v05m7qsgl77h5lumnl7cldj0tfmeqa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHGIm78xVDguGBTPr-OZn4nOE7hTqUcYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159665577019-9vp9uutonlogs06ptt2r51mlihaklipg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "159665577019-m16lal8j4cbd7md0t667dr8rlm7mevbm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.alisson.tapagoapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

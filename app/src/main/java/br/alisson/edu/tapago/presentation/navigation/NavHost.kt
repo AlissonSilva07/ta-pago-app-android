@@ -6,10 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.alisson.edu.tapago.presentation.screens.LoginScreen
-import br.alisson.edu.tapago.presentation.screens.SignupScreen
-import br.alisson.edu.tapago.presentation.screens.SplashScreen
-import br.alisson.edu.tapago.presentation.screens.WelcomeScreen
+import br.alisson.edu.tapago.presentation.login.LoginScreen
+import br.alisson.edu.tapago.presentation.signup.SignupScreen
+import br.alisson.edu.tapago.presentation.splash.SplashScreen
+import br.alisson.edu.tapago.presentation.welcome.WelcomeScreen
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
@@ -28,7 +28,7 @@ fun AppNavHost() {
         composable(Screen.Welcome.route) {
             WelcomeScreen(
                 navigateToLogin = {
-                navController.navigate(Screen.Login.route)
+                    navController.navigate(Screen.Login.route)
                 },
                 navigateToSignup = {
                     navController.navigate(Screen.Signup.route)
@@ -43,6 +43,9 @@ fun AppNavHost() {
                 },
                 navigateToSignup = {
                     navController.navigate(Screen.Signup.route)
+                },
+                navigateToHome = {
+                    navController.navigate(Screen.Home.route)
                 }
             )
         }
@@ -54,6 +57,14 @@ fun AppNavHost() {
                 },
                 navigateToLogin = {
                     navController.navigate(Screen.Login.route)
+                }
+            )
+        }
+
+        composable(Screen.Home.route) {
+            SignupScreen(
+                navigateBack = {
+                    navController.popBackStack()
                 }
             )
         }

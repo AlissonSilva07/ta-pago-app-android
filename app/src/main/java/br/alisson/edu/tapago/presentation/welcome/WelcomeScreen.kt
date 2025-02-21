@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.presentation.screens
+package br.alisson.edu.tapago.presentation.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -24,8 +24,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import br.alisson.edu.tapago.R
-import br.alisson.edu.tapago.presentation.components.ButtonVariant
-import br.alisson.edu.tapago.presentation.components.CustomButton
+import br.alisson.edu.tapago.core.components.ButtonVariant
+import br.alisson.edu.tapago.core.components.CustomButton
 
 @Composable
 fun WelcomeScreen(

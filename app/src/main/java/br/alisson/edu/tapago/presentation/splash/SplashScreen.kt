@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.presentation.screens
+package br.alisson.edu.tapago.presentation.splash
 
 import android.os.Build
 import androidx.annotation.RequiresApi

@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.presentation.screens
+package br.alisson.edu.tapago.presentation.signup
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -34,11 +34,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.alisson.edu.tapago.presentation.components.ButtonVariant
-import br.alisson.edu.tapago.presentation.components.CustomButton
-import br.alisson.edu.tapago.presentation.components.CustomTextField
-import br.alisson.edu.tapago.presentation.components.PhotoSelectorView
-import br.alisson.edu.tapago.presentation.components.TextFieldType
+import br.alisson.edu.tapago.core.components.ButtonVariant
+import br.alisson.edu.tapago.core.components.CustomButton
+import br.alisson.edu.tapago.core.components.CustomTextField
+import br.alisson.edu.tapago.core.components.PhotoSelectorView
+import br.alisson.edu.tapago.core.components.TextFieldType
 import com.composables.icons.lucide.ChevronLeft
 import com.composables.icons.lucide.Lucide
 import com.example.compose.TaPagoTheme

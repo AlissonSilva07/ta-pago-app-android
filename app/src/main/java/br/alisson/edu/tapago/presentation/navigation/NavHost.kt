@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.alisson.edu.tapago.presentation.login.LoginScreen
-import br.alisson.edu.tapago.presentation.signup.SignupScreen
+import br.alisson.edu.tapago.presentation.auth.login.LoginScreen
+import br.alisson.edu.tapago.presentation.auth.signup.SignupScreen
 import br.alisson.edu.tapago.presentation.splash.SplashScreen
 import br.alisson.edu.tapago.presentation.welcome.WelcomeScreen
 

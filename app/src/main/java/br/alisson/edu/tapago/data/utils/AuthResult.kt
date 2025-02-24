@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.data.remote.auth
+package br.alisson.edu.tapago.data.utils
 
 sealed class AuthResult<T>(val data: T? = null) {
     class Authorized<T>(data: T? = null) : AuthResult<T>(data)

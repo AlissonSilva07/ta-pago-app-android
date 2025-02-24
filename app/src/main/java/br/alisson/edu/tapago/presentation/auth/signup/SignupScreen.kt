@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.presentation.signup
+package br.alisson.edu.tapago.presentation.auth.signup
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

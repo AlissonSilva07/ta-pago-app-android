@@ -11,7 +11,6 @@ import androidx.navigation.compose.rememberNavController
 import br.alisson.edu.tapago.presentation.auth.AuthViewModel
 import br.alisson.edu.tapago.presentation.auth.login.LoginScreen
 import br.alisson.edu.tapago.presentation.auth.signup.SignupScreen
-import br.alisson.edu.tapago.presentation.tabs.home.HomeScreen
 import br.alisson.edu.tapago.presentation.splash.SplashScreen
 import br.alisson.edu.tapago.presentation.tabs.TabsScaffold
 import br.alisson.edu.tapago.presentation.welcome.WelcomeScreen
@@ -78,7 +77,7 @@ fun AppNavHost(authViewModel: AuthViewModel) {
         }
 
         composable(Screen.Tabs.route) {
-            TabsScaffold()
+            TabsScaffold(navController = navController)
         }
     }
 }

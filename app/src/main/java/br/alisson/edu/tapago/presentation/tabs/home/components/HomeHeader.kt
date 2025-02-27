@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.presentation.home.components
+package br.alisson.edu.tapago.presentation.tabs.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column

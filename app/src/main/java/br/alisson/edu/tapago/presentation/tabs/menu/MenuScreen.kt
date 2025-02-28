@@ -1,5 +1,6 @@
 package br.alisson.edu.tapago.presentation.tabs.menu
 
+import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,17 +17,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.alisson.edu.tapago.R
 import br.alisson.edu.tapago.core.components.ButtonVariant
 import br.alisson.edu.tapago.core.components.CustomButton
 import com.example.compose.TaPagoTheme
 
 @Composable
-fun MenuScreen(modifier: Modifier = Modifier) {
+fun MenuScreen(
+    modifier: Modifier = Modifier,
+    viewModel: MenuViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
+
     Column(
         modifier = modifier
             .padding(16.dp)
@@ -79,7 +87,11 @@ fun MenuScreen(modifier: Modifier = Modifier) {
             )
             CustomButton(
                 title = "Sair do App",
-                onClick = {},
+                onClick = {
+                    (context as? Activity)?.let {
+                        viewModel.logOut(it)
+                    }
+                },
                 variant = ButtonVariant.MUTED,
                 disabled = false,
                 modifier = Modifier.fillMaxWidth(),

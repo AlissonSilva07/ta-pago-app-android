@@ -24,4 +24,10 @@ class TokenManager @Inject constructor(
         .edit {
             it[PreferenceKeys.AUTH_TOKEN] = token
         }
+
+    suspend fun deleteAuthToken() {
+        dataStore.edit { preferences ->
+            preferences.remove(PreferenceKeys.AUTH_TOKEN)
+        }
+    }
 }

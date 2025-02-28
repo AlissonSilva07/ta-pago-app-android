@@ -38,6 +38,12 @@ class AuthViewModel @Inject constructor(
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
 
+    private val _emailError = MutableStateFlow("")
+    val emailError = _emailError.asStateFlow()
+
+    private val _passwordError = MutableStateFlow("")
+    val passwordError = _passwordError.asStateFlow()
+
     fun updateEmail(newEmail: String) {
         _email.value = newEmail
     }
@@ -46,9 +52,32 @@ class AuthViewModel @Inject constructor(
         _password.value = newPassword
     }
 
+    private fun validateEmail(): Boolean {
+        if (_email.value.isEmpty() || _email.value.length < 6) {
+            _emailError.value = "O campo deve ter no mínimo 6 caracteres."
+            return true
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
+            _emailError.value = "Email inválido."
+            return true
+        } else {
+            return false
+        }
+    }
+
+    private fun validatePassword(): Boolean {
+        if (_password.value.isEmpty() || _password.value.length < 6) {
+            _passwordError.value = "O campo deve ter no mínimo 6 caracteres."
+            return true
+        } else {
+            return false
+        }
+    }
+
     fun loginUser(request: LoginRequest) {
-        authRepository.logIn(request)
-            .onEach { _userResponse.value = it }
-            .launchIn(viewModelScope)
+        if (!validateEmail() || !validatePassword()) {
+            authRepository.logIn(request)
+                .onEach { _userResponse.value = it }
+                .launchIn(viewModelScope)
+        }
     }
 }

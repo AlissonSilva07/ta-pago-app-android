@@ -32,13 +32,18 @@ fun LoginScreen(
 ) {
     val context = LocalContext.current
     val userResponse by viewModel.userResponse.collectAsState()
+    var isLoading by remember {
+        mutableStateOf<Boolean>(false)
+    }
 
     LaunchedEffect(userResponse) {
         when (userResponse) {
             is NetworkResult.Success -> {
+                isLoading = false
                 navigateToHome()
             }
             is NetworkResult.Error -> {
+                isLoading = false
                 Toast.makeText(
                     context,
                     (userResponse as NetworkResult.Error).msg,
@@ -46,11 +51,7 @@ fun LoginScreen(
                 ).show()
             }
             is NetworkResult.Loading -> {
-                Toast.makeText(
-                    context,
-                    "Carregando...",
-                    Toast.LENGTH_LONG
-                ).show()
+                isLoading = true
             }
             NetworkResult.Idle -> {}
         }
@@ -131,7 +132,8 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth(),
                     label = "E-mail:",
                     value = viewModel.email.collectAsState().value,
-                    onValueChange = viewModel::updateEmail
+                    onValueChange = viewModel::updateEmail,
+                    error = viewModel.emailError.collectAsState().value,
                 )
 
                 CustomTextField(
@@ -139,7 +141,8 @@ fun LoginScreen(
                     label = "Senha:",
                     value = viewModel.password.collectAsState().value,
                     onValueChange = viewModel::updatePassword,
-                    type = TextFieldType.PASSWORD
+                    type = TextFieldType.PASSWORD,
+                    error = viewModel.passwordError.collectAsState().value,
                 )
             }
 
@@ -159,8 +162,19 @@ fun LoginScreen(
                         )
                     },
                     variant = ButtonVariant.DEFAULT,
-                    disabled = false,
-                    modifier = Modifier.fillMaxWidth()
+                    disabled = isLoading,
+                    modifier = Modifier.fillMaxWidth(),
+                    icon = {
+                        isLoading.apply {
+                            if (this) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(16.dp),
+                                    color = MaterialTheme.colorScheme.primaryContainer,
+                                    strokeWidth = 2.dp
+                                )
+                            }
+                        }
+                    }
                 )
                 Text(
                     text = "Não tem cadastro? Cadastre-se.",

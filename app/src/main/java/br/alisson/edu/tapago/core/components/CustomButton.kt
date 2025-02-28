@@ -1,6 +1,8 @@
 package br.alisson.edu.tapago.core.components
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +20,7 @@ fun CustomButton(
     variant: ButtonVariant,
     disabled: Boolean,
     onClick: () -> Unit,
+    icon: @Composable (() -> Unit)? = null
 ) {
 
     val backgroundColor = when (variant) {
@@ -57,6 +60,10 @@ fun CustomButton(
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
+        Spacer(modifier = Modifier.width(8.dp))
+        if (icon != null) {
+            icon()
+        }
     }
 }
 

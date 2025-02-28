@@ -34,9 +34,9 @@ fun CustomTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    type: TextFieldType = TextFieldType.DEFAULT
+    type: TextFieldType = TextFieldType.DEFAULT,
+    error: String? = null
 ) {
-
     var passwordVisible by remember { mutableStateOf(false) }
 
     Column(
@@ -55,7 +55,7 @@ fun CustomTextField(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
                 unfocusedBorderColor = MaterialTheme.colorScheme.inverseSurface,
-                cursorColor = MaterialTheme.colorScheme.secondaryContainer,
+                cursorColor = MaterialTheme.colorScheme.secondaryContainer
             ),
             visualTransformation = if (type == TextFieldType.PASSWORD && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
             trailingIcon = {
@@ -69,7 +69,15 @@ fun CustomTextField(
             },
             textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.surface),
             singleLine = true,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            isError = !error.isNullOrEmpty()
         )
+        error?.let {
+            Text(
+                text = it,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }

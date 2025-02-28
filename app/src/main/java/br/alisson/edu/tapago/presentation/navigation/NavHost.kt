@@ -77,7 +77,7 @@ fun AppNavHost(authViewModel: AuthViewModel) {
         }
 
         composable(Screen.Tabs.route) {
-            TabsScaffold(navController = navController)
+            TabsScaffold()
         }
     }
 }

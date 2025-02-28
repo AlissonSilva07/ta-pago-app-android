@@ -29,11 +29,13 @@ fun CustomButton(
         }
         ButtonVariant.DISABLED -> MaterialTheme.colorScheme.onPrimary
         ButtonVariant.MUTED -> MaterialTheme.colorScheme.onPrimary
+        ButtonVariant.DESTRUCTIVE -> MaterialTheme.colorScheme.error
     }
 
     val contentColor = when (variant) {
         ButtonVariant.DISABLED -> MaterialTheme.colorScheme.background
         ButtonVariant.MUTED -> MaterialTheme.colorScheme.background
+        ButtonVariant.DESTRUCTIVE -> MaterialTheme.colorScheme.background
         else -> MaterialTheme.colorScheme.primaryContainer
     }
 
@@ -70,5 +72,6 @@ fun CustomButton(
 enum class ButtonVariant {
     DEFAULT,
     DISABLED,
-    MUTED
+    MUTED,
+    DESTRUCTIVE
 }

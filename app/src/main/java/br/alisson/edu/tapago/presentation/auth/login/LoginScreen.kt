@@ -21,6 +21,7 @@ import br.alisson.edu.tapago.presentation.auth.AuthViewModel
 import br.alisson.edu.tapago.utils.NetworkResult
 import com.composables.icons.lucide.*
 import com.example.compose.TaPagoTheme
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,27 +32,25 @@ fun LoginScreen(
     viewModel: AuthViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val userResponse by viewModel.userResponse.collectAsState()
-    var isLoading by remember {
-        mutableStateOf<Boolean>(false)
-    }
+    val loginResponse by viewModel.loginResponse.collectAsState()
+    val loginState by viewModel.loginState.collectAsState()
 
-    LaunchedEffect(userResponse) {
-        when (userResponse) {
+    LaunchedEffect(loginResponse) {
+        when (loginResponse) {
             is NetworkResult.Success -> {
-                isLoading = false
+                loginState.isLoading = false
                 navigateToHome()
             }
             is NetworkResult.Error -> {
-                isLoading = false
+                loginState.isLoading = false
                 Toast.makeText(
                     context,
-                    (userResponse as NetworkResult.Error).msg,
+                    (loginResponse as NetworkResult.Error).msg,
                     Toast.LENGTH_LONG
                 ).show()
             }
             is NetworkResult.Loading -> {
-                isLoading = true
+                loginState.isLoading = true
             }
             NetworkResult.Idle -> {}
         }
@@ -85,13 +84,6 @@ fun LoginScreen(
                             tint = MaterialTheme.colorScheme.surface
                         )
                     }
-                },
-                actions = {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primaryContainer
-                    )
                 }
             )
         }
@@ -131,18 +123,22 @@ fun LoginScreen(
                 CustomTextField(
                     modifier = Modifier.fillMaxWidth(),
                     label = "E-mail:",
-                    value = viewModel.email.collectAsState().value,
-                    onValueChange = viewModel::updateEmail,
-                    error = viewModel.emailError.collectAsState().value,
+                    value = loginState.email,
+                    onValueChange = { newValue ->
+                        viewModel.onEventLogin(LoginEvents.UpdateEmail(newValue))
+                    },
+                    error = loginState.emailError,
                 )
 
                 CustomTextField(
                     modifier = Modifier.fillMaxWidth(),
                     label = "Senha:",
-                    value = viewModel.password.collectAsState().value,
-                    onValueChange = viewModel::updatePassword,
+                    value = loginState.password,
+                    onValueChange = { newValue ->
+                        viewModel.onEventLogin(LoginEvents.UpdatePassword(newValue))
+                    },
                     type = TextFieldType.PASSWORD,
-                    error = viewModel.passwordError.collectAsState().value,
+                    error = loginState.passwordError,
                 )
             }
 
@@ -154,25 +150,21 @@ fun LoginScreen(
                 CustomButton(
                     title = "Entrar",
                     onClick = {
-                        viewModel.loginUser(
-                            LoginRequest(
-                                email = viewModel.email.value,
-                                password = viewModel.password.value
-                            )
-                        )
+                        viewModel.onEventLogin(LoginEvents.Login(
+                            email = loginState.email,
+                            password = loginState.password
+                        ))
                     },
                     variant = ButtonVariant.DEFAULT,
-                    disabled = isLoading,
+                    disabled = loginState.isLoading,
                     modifier = Modifier.fillMaxWidth(),
                     icon = {
-                        isLoading.apply {
-                            if (this) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(16.dp),
-                                    color = MaterialTheme.colorScheme.primaryContainer,
-                                    strokeWidth = 2.dp
-                                )
-                            }
+                        if (loginState.isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(16.dp),
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                                strokeWidth = 2.dp
+                            )
                         }
                     }
                 )
@@ -182,9 +174,7 @@ fun LoginScreen(
                     color = MaterialTheme.colorScheme.inverseSurface,
                     textDecoration = TextDecoration.Underline,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.clickable {
-                        navigateToSignup()
-                    }
+                    modifier = Modifier.clickable { navigateToSignup() }
                 )
             }
         }

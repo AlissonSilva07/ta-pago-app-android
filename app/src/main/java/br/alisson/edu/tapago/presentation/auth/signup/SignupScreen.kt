@@ -1,6 +1,8 @@
 package br.alisson.edu.tapago.presentation.auth.signup
 
+import android.content.Context
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -21,6 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,27 +32,51 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.alisson.edu.tapago.core.components.ButtonVariant
 import br.alisson.edu.tapago.core.components.CustomButton
 import br.alisson.edu.tapago.core.components.CustomTextField
 import br.alisson.edu.tapago.core.components.PhotoSelectorView
 import br.alisson.edu.tapago.core.components.TextFieldType
+import br.alisson.edu.tapago.presentation.auth.AuthViewModel
+import br.alisson.edu.tapago.presentation.auth.login.LoginEvents
+import br.alisson.edu.tapago.utils.NetworkResult
 import com.composables.icons.lucide.ChevronLeft
 import com.composables.icons.lucide.Lucide
 import com.example.compose.TaPagoTheme
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignupScreen(
     navigateBack: () -> Unit = {},
-    navigateToLogin: () -> Unit = {}
+    navigateToLogin: () -> Unit = {},
+    viewModel: AuthViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val signUpResponse by viewModel.signUpResponse.collectAsState()
+    val signUpState by viewModel.signUpState.collectAsState()
+
+    LaunchedEffect(signUpResponse) {
+        when (signUpResponse) {
+            is NetworkResult.Success -> {
+                Toast.makeText(context, "Sign Up Successful!", Toast.LENGTH_SHORT).show()
+                navigateToLogin()
+            }
+            is NetworkResult.Error -> {
+                Toast.makeText(context, (signUpResponse as NetworkResult.Error).msg, Toast.LENGTH_LONG).show()
+            }
+            else -> {}
+        }
+    }
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         topBar = {
@@ -127,49 +155,52 @@ fun SignupScreen(
                     )
                 }
 
-                var selectedImage by remember {
-                    mutableStateOf<Uri?>(Uri.EMPTY)
-                }
+                var selectedImageUri by remember { mutableStateOf<Uri?>(Uri.EMPTY) }
 
                 val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.PickVisualMedia(),
-                    onResult = { uri -> selectedImage = uri }
+                    onResult = { uri ->
+                        selectedImageUri = uri
+                        uri?.let {
+                            val file = uriToFile(context, it)
+                            viewModel.onEventSignUp(SignUpEvents.UpdateProfilePicture(file))
+                        }
+                    }
                 )
 
-                var nome by rememberSaveable { mutableStateOf("") }
-                var email by rememberSaveable { mutableStateOf("") }
-                var senha by rememberSaveable { mutableStateOf("") }
-
                 PhotoSelectorView(
-                    selectedImage,
+                    selectedImageUri,
                     singlePhotoPickerLauncher
                 )
 
                 CustomTextField(
                     modifier = Modifier.fillMaxWidth(),
                     label = "Digite seu nome:",
-                    value = nome,
-                    onValueChange = {
-                        nome = it
-                    }
+                    value = signUpState.name,
+                    onValueChange = { newValue ->
+                        viewModel.onEventSignUp(SignUpEvents.UpdateName(newValue))
+                    },
+                    error = signUpState.nameError
                 )
 
                 CustomTextField(
                     modifier = Modifier.fillMaxWidth(),
                     label = "Digite seu e-mail:",
-                    value = email,
-                    onValueChange = {
-                        email = it
-                    }
+                    value = signUpState.email,
+                    onValueChange = { newValue ->
+                        viewModel.onEventSignUp(SignUpEvents.UpdateEmail(newValue))
+                    },
+                    error = signUpState.emailError
                 )
 
                 CustomTextField(
                     modifier = Modifier.fillMaxWidth(),
                     label = "Digite uma senha forte:",
-                    value = senha,
-                    onValueChange = {
-                        senha = it
+                    value = signUpState.password,
+                    onValueChange = { newValue ->
+                        viewModel.onEventSignUp(SignUpEvents.UpdatePassword(newValue))
                     },
+                    error = signUpState.passwordError,
                     type = TextFieldType.PASSWORD
                 )
             }
@@ -181,7 +212,14 @@ fun SignupScreen(
             ) {
                 CustomButton(
                     title = "Cadastrar",
-                    onClick = {},
+                    onClick = {
+                        viewModel.onEventSignUp(SignUpEvents.SignUp(
+                            name = signUpState.name,
+                            email = signUpState.email,
+                            password = signUpState.password,
+                            profilePicture = signUpState.profilePicture
+                        ))
+                    },
                     variant = ButtonVariant.DEFAULT,
                     disabled = false,
                     modifier = Modifier.fillMaxWidth()
@@ -199,6 +237,13 @@ fun SignupScreen(
             }
         }
     }
+}
+
+fun uriToFile(context: Context, uri: Uri): File? {
+    val inputStream = context.contentResolver.openInputStream(uri) ?: return null
+    val tempFile = File.createTempFile("profile_pic", ".jpg", context.cacheDir)
+    inputStream.use { input -> tempFile.outputStream().use { output -> input.copyTo(output) } }
+    return tempFile
 }
 
 @Preview(device = Devices.PIXEL_6)

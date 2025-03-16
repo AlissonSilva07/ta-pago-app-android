@@ -4,8 +4,6 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
@@ -16,12 +14,10 @@ import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.alisson.edu.tapago.core.components.*
-import br.alisson.edu.tapago.data.remote.model.LoginRequest
 import br.alisson.edu.tapago.presentation.auth.AuthViewModel
 import br.alisson.edu.tapago.utils.NetworkResult
 import com.composables.icons.lucide.*
 import com.example.compose.TaPagoTheme
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

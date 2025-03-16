@@ -1,5 +1,6 @@
 package br.alisson.edu.tapago.data.utils
 
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

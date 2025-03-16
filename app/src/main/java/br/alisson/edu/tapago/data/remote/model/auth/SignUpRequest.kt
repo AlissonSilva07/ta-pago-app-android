@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.data.remote.model
+package br.alisson.edu.tapago.data.remote.model.auth
 
 import java.io.File
 

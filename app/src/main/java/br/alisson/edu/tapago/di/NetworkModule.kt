@@ -1,9 +1,12 @@
 package br.alisson.edu.tapago.di
 
 import br.alisson.edu.tapago.data.remote.api.AuthApi
+import br.alisson.edu.tapago.data.remote.api.UserApi
 import br.alisson.edu.tapago.data.remote.repository.AuthRepository
+import br.alisson.edu.tapago.data.remote.repository.UserRepository
 import br.alisson.edu.tapago.data.utils.AuthInterceptor
 import br.alisson.edu.tapago.data.utils.TokenManager
+import br.alisson.edu.tapago.data.utils.UserManager
 import br.alisson.edu.tapago.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -21,27 +24,27 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesRetrofitBuilder(): Retrofit.Builder = Retrofit
-        .Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
-
-    @Provides
-    @Singleton
     fun providesHttpClient(authInterceptor: AuthInterceptor): OkHttpClient =
         OkHttpClient
             .Builder()
             .addInterceptor(authInterceptor)
-            .addNetworkInterceptor( HttpLoggingInterceptor().apply {
+            .addNetworkInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
             .build()
 
     @Provides
     @Singleton
-    fun providesAuthAPI(retrofitBuilder: Retrofit.Builder): AuthApi = retrofitBuilder
+    fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit
+        .Builder()
+        .baseUrl(BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(AuthApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providesAuthAPI(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
 
     @Provides
     @Singleton
@@ -49,4 +52,15 @@ class NetworkModule {
         authApi: AuthApi,
         tokenManager: TokenManager
     ): AuthRepository = AuthRepository(authApi, tokenManager)
+
+    @Provides
+    @Singleton
+    fun providesUserAPI(retrofit: Retrofit): UserApi = retrofit.create(UserApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        userApi: UserApi,
+        userManager: UserManager
+    ): UserRepository = UserRepository(userApi, userManager)
 }

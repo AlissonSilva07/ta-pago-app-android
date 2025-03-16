@@ -1,8 +1,8 @@
 package br.alisson.edu.tapago.data.remote.api
 
-import br.alisson.edu.tapago.data.remote.model.LoginRequest
-import br.alisson.edu.tapago.data.remote.model.LoginResponse
-import br.alisson.edu.tapago.data.remote.model.SignUpResponse
+import br.alisson.edu.tapago.data.remote.model.auth.LoginRequest
+import br.alisson.edu.tapago.data.remote.model.auth.LoginResponse
+import br.alisson.edu.tapago.data.remote.model.auth.SignUpResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response

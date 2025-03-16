@@ -17,11 +17,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import br.alisson.edu.tapago.R
+import coil.compose.AsyncImage
 
 @Composable
 fun HomeHeader(
-    name: String,
-    avatar: Int
+    name: String? = null,
+    avatar: ByteArray? = null
 ) {
     Row (
         modifier = Modifier
@@ -39,14 +41,14 @@ fun HomeHeader(
                 fontWeight = FontWeight.Normal
             )
             Text(
-                text = name,
+                text = name ?: "Usuário(a)",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.surface,
                 fontWeight = FontWeight.Bold
             )
         }
-        Image(
-            painter = painterResource(avatar),
+        AsyncImage(
+            model = avatar ?: R.drawable.top_image,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier

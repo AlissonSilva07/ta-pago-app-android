@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,14 +27,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.alisson.edu.tapago.R
 import br.alisson.edu.tapago.core.components.ButtonVariant
 import br.alisson.edu.tapago.core.components.CustomButton
+import br.alisson.edu.tapago.presentation.user.UserViewModel
+import coil.compose.AsyncImage
 import com.example.compose.TaPagoTheme
 
 @Composable
 fun MenuScreen(
     modifier: Modifier = Modifier,
-    viewModel: MenuViewModel = hiltViewModel()
+    viewModel: MenuViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val userState = userViewModel.userState.collectAsState()
 
     Column(
         modifier = modifier
@@ -46,8 +51,8 @@ fun MenuScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.top_image),
+            AsyncImage(
+                model = userState.value.userData?.profilePicture ?: R.drawable.top_image,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -60,13 +65,13 @@ fun MenuScreen(
                 verticalArrangement = Arrangement.spacedBy(0.dp)
             ) {
                 Text(
-                    text = "Usuário(a)",
+                    text = userState.value.userData?.name ?: "Usuário(a)",
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.background,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Ativo(a) desde: 07/08/2024",
+                    text = "Ativo(a) desde: ${userState.value.userData?.createdAt}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.background,
                     fontWeight = FontWeight.Bold

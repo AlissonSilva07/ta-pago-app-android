@@ -2,10 +2,10 @@ package br.alisson.edu.tapago.data.remote.repository
 
 import android.util.Log
 import br.alisson.edu.tapago.data.remote.api.AuthApi
-import br.alisson.edu.tapago.data.remote.model.LoginRequest
-import br.alisson.edu.tapago.data.remote.model.LoginResponse
-import br.alisson.edu.tapago.data.remote.model.SignUpRequest
-import br.alisson.edu.tapago.data.remote.model.SignUpResponse
+import br.alisson.edu.tapago.data.remote.model.auth.LoginRequest
+import br.alisson.edu.tapago.data.remote.model.auth.LoginResponse
+import br.alisson.edu.tapago.data.remote.model.auth.SignUpRequest
+import br.alisson.edu.tapago.data.remote.model.auth.SignUpResponse
 import br.alisson.edu.tapago.data.utils.TokenManager
 import br.alisson.edu.tapago.utils.NetworkResult
 import kotlinx.coroutines.Dispatchers
@@ -14,12 +14,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody
 import retrofit2.Response
-import java.io.File
 
 private const val errorMsg = "Algo deu errado."
 

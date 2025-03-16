@@ -9,18 +9,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.alisson.edu.tapago.R
 import br.alisson.edu.tapago.presentation.tabs.home.components.AcessoRapidoCard
 import br.alisson.edu.tapago.presentation.tabs.home.components.HomeHeader
+import br.alisson.edu.tapago.presentation.user.UserViewModel
 import com.composables.icons.lucide.CopyPlus
 import com.composables.icons.lucide.DollarSign
 import com.composables.icons.lucide.Lucide
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    userViewModel: UserViewModel = hiltViewModel()
+) {
+    val userState = userViewModel.userState.collectAsState()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -28,7 +36,18 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        HomeHeader("Usuário(a)", R.drawable.top_image)
+        when {
+            userState.value.isLoading -> {
+                Text(text = "Carregando...")
+            }
+
+            userState.value.userData != null -> {
+                HomeHeader(
+                    name = userState.value.userData?.name,
+                    avatar = userState.value.userData?.profilePicture
+                )
+            }
+        }
 
         Column(
             modifier = Modifier

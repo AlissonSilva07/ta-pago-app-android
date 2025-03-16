@@ -2,10 +2,10 @@ package br.alisson.edu.tapago.presentation.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.alisson.edu.tapago.data.remote.model.LoginRequest
-import br.alisson.edu.tapago.data.remote.model.LoginResponse
-import br.alisson.edu.tapago.data.remote.model.SignUpRequest
-import br.alisson.edu.tapago.data.remote.model.SignUpResponse
+import br.alisson.edu.tapago.data.remote.model.auth.LoginRequest
+import br.alisson.edu.tapago.data.remote.model.auth.LoginResponse
+import br.alisson.edu.tapago.data.remote.model.auth.SignUpRequest
+import br.alisson.edu.tapago.data.remote.model.auth.SignUpResponse
 import br.alisson.edu.tapago.data.remote.repository.AuthRepository
 import br.alisson.edu.tapago.data.utils.TokenManager
 import br.alisson.edu.tapago.presentation.auth.login.LoginEvents

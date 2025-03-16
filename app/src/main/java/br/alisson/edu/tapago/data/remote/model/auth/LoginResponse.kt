@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.data.remote.model
+package br.alisson.edu.tapago.data.remote.model.auth
 
 data class LoginResponse(
     val message: String,

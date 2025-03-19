@@ -1,5 +1,6 @@
 package br.alisson.edu.tapago.di
 
+import br.alisson.edu.tapago.data.remote.api.AnalyticsApi
 import br.alisson.edu.tapago.data.remote.api.AuthApi
 import br.alisson.edu.tapago.data.remote.api.UserApi
 import br.alisson.edu.tapago.data.remote.repository.AuthRepository
@@ -48,19 +49,9 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(
-        authApi: AuthApi,
-        tokenManager: TokenManager
-    ): AuthRepository = AuthRepository(authApi, tokenManager)
-
-    @Provides
-    @Singleton
     fun providesUserAPI(retrofit: Retrofit): UserApi = retrofit.create(UserApi::class.java)
 
     @Provides
     @Singleton
-    fun provideUserRepository(
-        userApi: UserApi,
-        userManager: UserManager
-    ): UserRepository = UserRepository(userApi, userManager)
+    fun providesAnalyticsAPI(retrofit: Retrofit): AnalyticsApi = retrofit.create(AnalyticsApi::class.java)
 }

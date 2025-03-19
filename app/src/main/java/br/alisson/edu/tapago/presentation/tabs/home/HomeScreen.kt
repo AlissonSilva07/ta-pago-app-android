@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.alisson.edu.tapago.R
+import br.alisson.edu.tapago.presentation.analytics.AnalyticsViewModel
 import br.alisson.edu.tapago.presentation.tabs.home.components.AcessoRapidoCard
 import br.alisson.edu.tapago.presentation.tabs.home.components.HomeHeader
 import br.alisson.edu.tapago.presentation.tabs.home.components.ResumoContasCard
@@ -28,9 +29,11 @@ import com.composables.icons.lucide.Lucide
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    userViewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel = hiltViewModel(),
+    analyticsViewModel: AnalyticsViewModel = hiltViewModel()
 ) {
     val userState = userViewModel.userState.collectAsState()
+    val analyticsState = analyticsViewModel.summaryUnpaidExpensesState.collectAsState()
 
     Column(
         modifier = modifier

@@ -1,16 +1,19 @@
 package br.alisson.edu.tapago.presentation.tabs
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -20,8 +23,6 @@ import br.alisson.edu.tapago.presentation.tabs.components.BottomNavItem
 import br.alisson.edu.tapago.presentation.tabs.home.HomeScreen
 import br.alisson.edu.tapago.presentation.tabs.menu.MenuScreen
 import br.alisson.edu.tapago.presentation.tabs.pay.PayScreen
-import com.composables.icons.lucide.ArrowLeft
-import com.composables.icons.lucide.Lucide
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,19 +47,18 @@ fun TabsScaffold() {
             if (currentRoute != BottomNavItem.Home.route) {
                 TopAppBar(
                     title = {
-                        Text(
-                            text = title,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    navigationIcon = {
-                        Icon(
-                            imageVector = Lucide.ArrowLeft,
-                            tint = MaterialTheme.colorScheme.onSurface,
-                            contentDescription = null
-                        )
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = title,
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     },
                     colors = TopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surface,

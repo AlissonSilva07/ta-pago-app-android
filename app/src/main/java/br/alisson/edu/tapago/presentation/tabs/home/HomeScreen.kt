@@ -12,11 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.alisson.edu.tapago.R
 import br.alisson.edu.tapago.presentation.tabs.home.components.AcessoRapidoCard
 import br.alisson.edu.tapago.presentation.tabs.home.components.HomeHeader
+import br.alisson.edu.tapago.presentation.tabs.home.components.ResumoContasCard
+import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
 import br.alisson.edu.tapago.presentation.user.UserViewModel
 import com.composables.icons.lucide.CopyPlus
 import com.composables.icons.lucide.DollarSign
@@ -55,28 +58,37 @@ fun HomeScreen(
                 .padding(bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(
-                text = "Acesso rápido",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.Bold
-            )
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxSize(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                AcessoRapidoCard(
-                    modifier = Modifier.weight(0.5f),
-                    icon = Lucide.DollarSign,
-                    title = "Pagar"
+                Text(
+                    text = "Acesso rápido",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold
                 )
-                AcessoRapidoCard(
-                    modifier = Modifier.weight(0.5f),
-                    icon = Lucide.CopyPlus,
-                    title = "Adicionar"
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    AcessoRapidoCard(
+                        modifier = Modifier.weight(0.5f),
+                        icon = Lucide.DollarSign,
+                        title = "Pagar"
+                    )
+                    AcessoRapidoCard(
+                        modifier = Modifier.weight(0.5f),
+                        icon = Lucide.CopyPlus,
+                        title = "Adicionar"
+                    )
+                }
             }
+
+            ResumoContasCard()
         }
     }
 }

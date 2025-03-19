@@ -27,7 +27,7 @@ import br.alisson.edu.tapago.core.components.ButtonVariant
 import br.alisson.edu.tapago.core.components.CustomButton
 import br.alisson.edu.tapago.presentation.user.UserViewModel
 import coil.compose.AsyncImage
-import com.example.compose.TaPagoTheme
+import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
 
 @Composable
 fun MenuScreen(
@@ -65,13 +65,13 @@ fun MenuScreen(
                 Text(
                     text = userState.value.userData?.name ?: "Usuário(a)",
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.background,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "Ativo(a) desde: ${userState.value.userData?.createdAt}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.background,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }

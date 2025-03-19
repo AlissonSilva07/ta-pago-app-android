@@ -45,10 +45,10 @@ fun PhotoSelectorView(
         Card(
             modifier = Modifier.clickable { launchPhotoPicker() },
             colors = CardColors(
-                containerColor = MaterialTheme.colorScheme.inverseSurface,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-                disabledContentColor = MaterialTheme.colorScheme.inverseSurface,
-                disabledContainerColor = MaterialTheme.colorScheme.onPrimary
+                containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+                contentColor = MaterialTheme.colorScheme.surface,
+                disabledContentColor = MaterialTheme.colorScheme.inverseOnSurface,
+                disabledContainerColor = MaterialTheme.colorScheme.surface
             ),
             content = {
                 Column(
@@ -69,7 +69,7 @@ fun PhotoSelectorView(
                             Text(
                                 text = "Escolha uma foto",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.primaryContainer,
+                                color = MaterialTheme.colorScheme.surface,
                                 textAlign = TextAlign.Center
                             )
                         }
@@ -87,7 +87,7 @@ fun PhotoSelectorView(
             Text(
                 text = "Clique novamente para adicionar outra foto",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.inverseSurface,
+                color = MaterialTheme.colorScheme.surface,
                 textAlign = TextAlign.Center
             )
         }

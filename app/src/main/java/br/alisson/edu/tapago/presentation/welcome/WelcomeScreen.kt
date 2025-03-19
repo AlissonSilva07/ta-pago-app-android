@@ -34,7 +34,7 @@ fun WelcomeScreen(
 ) {
     Surface (
         modifier = Modifier.windowInsetsPadding(insets = WindowInsets.systemBars),
-        color = MaterialTheme.colorScheme.primaryContainer,
+        color = MaterialTheme.colorScheme.surface,
     ) {
         Column (
             modifier = Modifier
@@ -65,13 +65,13 @@ fun WelcomeScreen(
                 Text(
                     text = "Reúna suas contas em um lugar só.",
                     style = MaterialTheme.typography.displaySmall,
-                    color = MaterialTheme.colorScheme.surface,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "Depois, é só compartilhar com a galera.",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.inverseSurface
+                    color = MaterialTheme.colorScheme.inverseOnSurface
                 )
                 Row (
                     modifier = Modifier.fillMaxWidth(),

@@ -38,7 +38,7 @@ fun BottomNavBar(navController: NavHostController) {
     Row(
         modifier = Modifier
             .padding(16.dp)
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.surface)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
@@ -61,8 +61,8 @@ fun RowScope.AddItem(
 ) {
     val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
     val iconTint = when (screen) {
-        BottomNavItem.Pay -> MaterialTheme.colorScheme.primaryContainer
-        else -> if (selected) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+        BottomNavItem.Pay -> MaterialTheme.colorScheme.surface
+        else -> if (selected) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.inverseOnSurface
     }
 
     Box(
@@ -74,12 +74,12 @@ fun RowScope.AddItem(
                 if (screen == BottomNavItem.Pay) {
                     Brush.verticalGradient(
                         colorStops = arrayOf(
-                            0.2f to MaterialTheme.colorScheme.secondaryContainer,
-                            1.0f to MaterialTheme.colorScheme.tertiaryContainer
+                            0.2f to MaterialTheme.colorScheme.primary,
+                            1.0f to MaterialTheme.colorScheme.tertiary
                         )
                     )
                 } else {
-                    SolidColor(MaterialTheme.colorScheme.primaryContainer)
+                    SolidColor(MaterialTheme.colorScheme.surface)
                 }
             )
             .clickable {

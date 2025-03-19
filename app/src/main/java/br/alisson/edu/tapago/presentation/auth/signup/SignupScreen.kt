@@ -28,7 +28,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,11 +45,10 @@ import br.alisson.edu.tapago.core.components.CustomTextField
 import br.alisson.edu.tapago.core.components.PhotoSelectorView
 import br.alisson.edu.tapago.core.components.TextFieldType
 import br.alisson.edu.tapago.presentation.auth.AuthViewModel
-import br.alisson.edu.tapago.presentation.auth.login.LoginEvents
 import br.alisson.edu.tapago.utils.NetworkResult
 import com.composables.icons.lucide.ChevronLeft
 import com.composables.icons.lucide.Lucide
-import com.example.compose.TaPagoTheme
+import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,15 +76,15 @@ fun SignupScreen(
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             TopAppBar(
                 colors = TopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.surface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.surface,
-                    actionIconContentColor = MaterialTheme.colorScheme.surface,
-                    scrolledContainerColor = MaterialTheme.colorScheme.surface
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                    actionIconContentColor = MaterialTheme.colorScheme.onSurface,
+                    scrolledContainerColor = MaterialTheme.colorScheme.onSurface
                 ),
                 title = {
                     Box(
@@ -96,7 +94,7 @@ fun SignupScreen(
                         Text(
                             text = "Cadastro",
                             style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.surface,
+                            color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -108,7 +106,7 @@ fun SignupScreen(
                             Icon(
                                 imageVector = Lucide.ChevronLeft,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.surface
+                                tint = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     )
@@ -117,7 +115,7 @@ fun SignupScreen(
                     Icon(
                         imageVector = Lucide.ChevronLeft,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primaryContainer
+                        tint = MaterialTheme.colorScheme.surface
                     )
                 }
             )
@@ -127,7 +125,7 @@ fun SignupScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primaryContainer)
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(PaddingValues(top = 0.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -145,13 +143,13 @@ fun SignupScreen(
                     Text(
                         text = "Boas-vindas ao Tá Pago! 😉",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.surface,
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = "Entre com os dados abaixo para concluir o seu cadastro.",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.inverseSurface,
+                        color = MaterialTheme.colorScheme.inverseOnSurface,
                     )
                 }
 
@@ -227,7 +225,7 @@ fun SignupScreen(
                 Text(
                     text = "Já possui cadastro? Faça login para continuar.",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.inverseSurface,
+                    color = MaterialTheme.colorScheme.inverseOnSurface,
                     textDecoration = TextDecoration.Underline,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable {

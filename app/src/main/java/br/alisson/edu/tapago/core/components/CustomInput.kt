@@ -46,16 +46,16 @@ fun CustomTextField(
         Text(
             text = label,
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.surface
+            color = MaterialTheme.colorScheme.onSurface
         )
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
             shape = RoundedCornerShape(16.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedBorderColor = MaterialTheme.colorScheme.inverseSurface,
-                cursorColor = MaterialTheme.colorScheme.secondaryContainer
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.inverseOnSurface,
+                cursorColor = MaterialTheme.colorScheme.primary
             ),
             visualTransformation = if (type == TextFieldType.PASSWORD && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
             trailingIcon = {
@@ -63,11 +63,12 @@ fun CustomTextField(
                     Icon(
                         imageVector = if (passwordVisible) Lucide.Eye else Lucide.EyeOff,
                         contentDescription = "Toggle Password Visibility",
-                        modifier = Modifier.clickable { passwordVisible = !passwordVisible }
+                        modifier = Modifier.clickable { passwordVisible = !passwordVisible },
+                        tint = MaterialTheme.colorScheme.inverseOnSurface
                     )
                 }
             },
-            textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.surface),
+            textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             isError = !error.isNullOrEmpty()

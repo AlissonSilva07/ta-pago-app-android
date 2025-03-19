@@ -31,10 +31,10 @@ fun AcessoRapidoCard(
     Card (
         modifier = modifier,
         colors = CardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSurface,
-            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.surface,
+            disabledContainerColor = MaterialTheme.colorScheme.inverseSurface,
+            disabledContentColor = MaterialTheme.colorScheme.surface
         ),
         shape = RoundedCornerShape(16.dp)
     ) {
@@ -50,26 +50,26 @@ fun AcessoRapidoCard(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primaryContainer,
+                    tint = MaterialTheme.colorScheme.surface,
                     modifier = Modifier.size(32.dp)
                 )
                 Text(
                     text = title,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primaryContainer,
+                    color = MaterialTheme.colorScheme.surface,
                     fontWeight = FontWeight.Bold
                 )
             }
             Box (
                 modifier = Modifier
                     .clip(RoundedCornerShape(percent = 100))
-                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .background(MaterialTheme.colorScheme.surface)
                     .size(20.dp)
             ) {
                 Icon(
                     imageVector = Lucide.ArrowUpRight,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.secondaryContainer,
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         }

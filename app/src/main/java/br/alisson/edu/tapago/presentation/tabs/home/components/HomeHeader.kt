@@ -37,18 +37,18 @@ fun HomeHeader(
             Text(
                 text = "Olá,",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.inverseOnSurface,
                 fontWeight = FontWeight.Normal
             )
             Text(
                 text = name ?: "Usuário(a)",
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.surface,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )
         }
         AsyncImage(
-            model = avatar ?: R.drawable.top_image,
+            model = avatar ?: R.drawable.logo_splash,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier

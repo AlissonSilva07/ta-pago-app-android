@@ -25,18 +25,18 @@ fun CustomButton(
 
     val backgroundColor = when (variant) {
         ButtonVariant.DEFAULT -> {
-            MaterialTheme.colorScheme.secondaryContainer
+            MaterialTheme.colorScheme.primary
         }
-        ButtonVariant.DISABLED -> MaterialTheme.colorScheme.onPrimary
-        ButtonVariant.MUTED -> MaterialTheme.colorScheme.onPrimary
+        ButtonVariant.DISABLED -> MaterialTheme.colorScheme.onSurface
+        ButtonVariant.MUTED -> MaterialTheme.colorScheme.secondary
         ButtonVariant.DESTRUCTIVE -> MaterialTheme.colorScheme.error
     }
 
     val contentColor = when (variant) {
-        ButtonVariant.DISABLED -> MaterialTheme.colorScheme.background
-        ButtonVariant.MUTED -> MaterialTheme.colorScheme.background
-        ButtonVariant.DESTRUCTIVE -> MaterialTheme.colorScheme.background
-        else -> MaterialTheme.colorScheme.primaryContainer
+        ButtonVariant.DISABLED -> MaterialTheme.colorScheme.onSurface
+        ButtonVariant.MUTED -> MaterialTheme.colorScheme.onSurface
+        ButtonVariant.DESTRUCTIVE -> MaterialTheme.colorScheme.onSurface
+        else -> MaterialTheme.colorScheme.surface
     }
 
     Button(

@@ -58,7 +58,7 @@ fun HomeScreen(
             Text(
                 text = "Acesso rápido",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.background,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )
             Row(

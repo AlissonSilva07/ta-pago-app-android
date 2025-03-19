@@ -11,8 +11,8 @@ import androidx.annotation.RequiresApi
 import androidx.compose.ui.graphics.toArgb
 import br.alisson.edu.tapago.presentation.auth.AuthViewModel
 import br.alisson.edu.tapago.presentation.navigation.AppNavHost
-import com.example.compose.TaPagoTheme
-import com.example.compose.primaryContainerLight
+import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
+import br.alisson.edu.tapago.presentation.ui.theme.primary
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,8 +23,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.dark(scrim = primaryContainerLight.toArgb()),
-            navigationBarStyle = SystemBarStyle.dark(scrim = primaryContainerLight.toArgb())
+            statusBarStyle = SystemBarStyle.dark(scrim = primary.toArgb()),
+            navigationBarStyle = SystemBarStyle.dark(scrim = primary.toArgb())
         )
         setContent {
             TaPagoTheme(darkTheme = false, dynamicColor = false) {

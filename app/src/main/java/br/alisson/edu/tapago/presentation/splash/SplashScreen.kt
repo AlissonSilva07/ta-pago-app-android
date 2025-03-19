@@ -30,7 +30,7 @@ fun SplashScreen(navigateToWelcome: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.primaryContainer),
+            .background(color = MaterialTheme.colorScheme.surface),
         contentAlignment = Alignment.Center,
     ) {
         Image(

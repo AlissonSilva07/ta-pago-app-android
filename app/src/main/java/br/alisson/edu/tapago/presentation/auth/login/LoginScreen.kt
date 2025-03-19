@@ -17,7 +17,7 @@ import br.alisson.edu.tapago.core.components.*
 import br.alisson.edu.tapago.presentation.auth.AuthViewModel
 import br.alisson.edu.tapago.utils.NetworkResult
 import com.composables.icons.lucide.*
-import com.example.compose.TaPagoTheme
+import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,11 +53,11 @@ fun LoginScreen(
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                    containerColor = MaterialTheme.colorScheme.surface
                 ),
                 title = {
                     Box(
@@ -67,7 +67,7 @@ fun LoginScreen(
                         Text(
                             text = "Login",
                             style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.surface,
+                            color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -77,7 +77,7 @@ fun LoginScreen(
                         Icon(
                             imageVector = Lucide.ChevronLeft,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.surface
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
@@ -88,7 +88,7 @@ fun LoginScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primaryContainer)
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(horizontal = 16.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -106,13 +106,13 @@ fun LoginScreen(
                     Text(
                         text = "Olá novamente! 😁",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.surface,
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = "Entre com suas credenciais para continuar.",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.inverseSurface,
+                        color = MaterialTheme.colorScheme.inverseOnSurface,
                     )
                 }
 
@@ -158,7 +158,7 @@ fun LoginScreen(
                         if (loginState.isLoading) {
                             CircularProgressIndicator(
                                 modifier = Modifier.size(16.dp),
-                                color = MaterialTheme.colorScheme.primaryContainer,
+                                color = MaterialTheme.colorScheme.surface,
                                 strokeWidth = 2.dp
                             )
                         }
@@ -167,7 +167,7 @@ fun LoginScreen(
                 Text(
                     text = "Não tem cadastro? Cadastre-se.",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.inverseSurface,
+                    color = MaterialTheme.colorScheme.inverseOnSurface,
                     textDecoration = TextDecoration.Underline,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable { navigateToSignup() }

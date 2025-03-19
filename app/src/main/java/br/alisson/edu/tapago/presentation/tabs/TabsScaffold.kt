@@ -38,7 +38,7 @@ fun TabsScaffold() {
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        containerColor = MaterialTheme.colorScheme.surface,
         bottomBar = {
             BottomNavBar(tabNavController)
         },
@@ -49,23 +49,23 @@ fun TabsScaffold() {
                         Text(
                             text = title,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.background,
+                            color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.Bold
                         )
                     },
                     navigationIcon = {
                         Icon(
                             imageVector = Lucide.ArrowLeft,
-                            tint = MaterialTheme.colorScheme.surface,
+                            tint = MaterialTheme.colorScheme.onSurface,
                             contentDescription = null
                         )
                     },
                     colors = TopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.surface,
-                        navigationIconContentColor = MaterialTheme.colorScheme.surface,
-                        scrolledContainerColor = MaterialTheme.colorScheme.surface,
-                        actionIconContentColor = MaterialTheme.colorScheme.surface,
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        titleContentColor = MaterialTheme.colorScheme.onSurface,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                        scrolledContainerColor = MaterialTheme.colorScheme.onSurface,
+                        actionIconContentColor = MaterialTheme.colorScheme.onSurface,
                     ),
                 )
             }

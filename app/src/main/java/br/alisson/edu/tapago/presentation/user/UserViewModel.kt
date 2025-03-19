@@ -1,5 +1,7 @@
 package br.alisson.edu.tapago.presentation.user
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.alisson.edu.tapago.data.remote.model.user.UserResponse
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val userRepository: UserRepository,

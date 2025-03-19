@@ -1,6 +1,8 @@
 package br.alisson.edu.tapago.presentation.tabs
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -76,7 +78,11 @@ fun TabsScaffold() {
             startDestination = BottomNavItem.Home.route
         ) {
             composable(BottomNavItem.Home.route) {
-                HomeScreen(modifier = Modifier.padding(padding))
+                HomeScreen(
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxSize()
+                )
             }
 
             composable(BottomNavItem.Pay.route) {

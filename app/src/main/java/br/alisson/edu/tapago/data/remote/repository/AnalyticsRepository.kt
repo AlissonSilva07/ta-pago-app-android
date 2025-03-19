@@ -2,6 +2,7 @@ package br.alisson.edu.tapago.data.remote.repository
 
 import android.util.Log
 import br.alisson.edu.tapago.data.remote.api.AnalyticsApi
+import br.alisson.edu.tapago.data.remote.model.user.ExpenseResponse
 import br.alisson.edu.tapago.domain.model.Expense
 import br.alisson.edu.tapago.utils.NetworkResult
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +15,7 @@ private const val errorMsg = "Algo deu errado."
 class AnalyticsRepository(
     private val analyticsApi: AnalyticsApi
 ) {
-    fun getSummaryUnpaidExpenses() = flow<NetworkResult<List<Expense>>> {
+    fun getSummaryUnpaidExpenses() = flow<NetworkResult<List<ExpenseResponse>>> {
         try {
             val response = analyticsApi.getSummaryUnpaidExpenses()
 

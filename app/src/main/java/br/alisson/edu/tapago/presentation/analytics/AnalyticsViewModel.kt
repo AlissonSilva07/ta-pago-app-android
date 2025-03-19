@@ -1,9 +1,12 @@
 package br.alisson.edu.tapago.presentation.analytics
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.alisson.edu.tapago.data.remote.model.user.ExpenseResponse
+import br.alisson.edu.tapago.data.remote.model.user.toDomainModel
 import br.alisson.edu.tapago.data.remote.repository.AnalyticsRepository
-import br.alisson.edu.tapago.domain.model.Expense
 import br.alisson.edu.tapago.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,6 +15,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class AnalyticsViewModel @Inject constructor(
     private val analyticsRepository: AnalyticsRepository
@@ -20,7 +24,7 @@ class AnalyticsViewModel @Inject constructor(
     private val _summaryUnpaidExpensesState: MutableStateFlow<SummaryUnpaidState> = MutableStateFlow(SummaryUnpaidState())
     val summaryUnpaidExpensesState = _summaryUnpaidExpensesState.asStateFlow()
 
-    private val _summaryUnpaidExpensesResponse = MutableStateFlow<NetworkResult<List<Expense>>>(NetworkResult.Idle)
+    private val _summaryUnpaidExpensesResponse = MutableStateFlow<NetworkResult<List<ExpenseResponse>>>(NetworkResult.Idle)
     val summaryUnpaidExpensesResponse = _summaryUnpaidExpensesResponse.asStateFlow()
 
     private fun getExpenses() {
@@ -31,7 +35,7 @@ class AnalyticsViewModel @Inject constructor(
                 when (result) {
                     is NetworkResult.Success -> {
                         _summaryUnpaidExpensesState.value = _summaryUnpaidExpensesState.value.copy(
-                            summaryUnpaidExpenses = result.data,
+                            summaryUnpaidExpenses = result.data.map { it.toDomainModel() },
                             isLoading = false
                         )
                     }

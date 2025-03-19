@@ -16,14 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
+import br.alisson.edu.tapago.domain.model.Expense
 import com.composables.icons.lucide.HousePlug
 import com.composables.icons.lucide.Lucide
 
 @Composable
-fun ContaItem() {
+fun ContaItem(
+    expense: Expense? = null
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -62,13 +63,13 @@ fun ContaItem() {
                 verticalArrangement = Arrangement.spacedBy(0.dp)
             ) {
                 Text(
-                    text = "Energia Fevereiro",
+                    text = expense?.title ?: "Título",
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "12 de Fev.",
+                    text = expense?.dueDate ?: "Data",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.inverseOnSurface,
                     fontWeight = FontWeight.Normal
@@ -76,18 +77,10 @@ fun ContaItem() {
             }
         }
         Text(
-            text = "R$900,00",
+            text = expense?.amount.toString() ?: "Valor",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.inverseOnSurface,
             fontWeight = FontWeight.Normal
         )
-    }
-}
-
-@Preview
-@Composable
-private fun ContaItemPreview() {
-    TaPagoTheme {
-        ContaItem()
     }
 }

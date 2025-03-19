@@ -91,7 +91,15 @@ fun HomeScreen(
                 }
             }
 
-            ResumoContasCard()
+            when {
+                analyticsState.value.isLoading -> {
+                    Text(text = "Carregando...")
+                }
+
+                analyticsState.value.summaryUnpaidExpenses != null -> {
+                    ResumoContasCard(analyticsState.value.summaryUnpaidExpenses!!)
+                }
+            }
         }
     }
 }

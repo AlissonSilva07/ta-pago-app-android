@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -12,12 +14,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
+import br.alisson.edu.tapago.domain.model.Expense
 
 @Composable
-fun ResumoContasCard() {
+fun ResumoContasCard(
+    expenses: List<Expense>
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -39,15 +42,11 @@ fun ResumoContasCard() {
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )
-            ContaItem()
+            LazyColumn {
+                items(expenses) { expense ->
+                    ContaItem(expense = expense)
+                }
+            }
         }
-    }
-}
-
-@Preview
-@Composable
-private fun ResumoContasCardPreview() {
-    TaPagoTheme {
-        ResumoContasCard()
     }
 }

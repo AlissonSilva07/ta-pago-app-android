@@ -5,12 +5,14 @@ import androidx.lifecycle.viewModelScope
 import br.alisson.edu.tapago.data.remote.repository.AnalyticsRepository
 import br.alisson.edu.tapago.domain.model.Expense
 import br.alisson.edu.tapago.utils.NetworkResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@HiltViewModel
 class AnalyticsViewModel @Inject constructor(
     private val analyticsRepository: AnalyticsRepository
 ): ViewModel() {

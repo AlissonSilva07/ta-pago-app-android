@@ -1,6 +1,7 @@
 package br.alisson.edu.tapago.presentation.tabs.home
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import br.alisson.edu.tapago.presentation.analytics.AnalyticsViewModel
 import br.alisson.edu.tapago.presentation.tabs.home.components.AcessoRapidoCard
 import br.alisson.edu.tapago.presentation.tabs.home.components.HomeHeader
 import br.alisson.edu.tapago.presentation.tabs.home.components.ResumoContasCard
+import br.alisson.edu.tapago.presentation.tabs.home.components.TotalContasCard
 import br.alisson.edu.tapago.presentation.user.UserEvent
 import br.alisson.edu.tapago.presentation.user.UserViewModel
 import com.composables.icons.lucide.CopyPlus
@@ -37,10 +39,12 @@ fun HomeScreen(
     val userState = userViewModel.state.collectAsState()
     val analyticsState = analyticsViewModel.state.collectAsState()
     val expenses = analyticsState.value.summaryUnpaidExpenses
+    val totalExpenses = analyticsState.value.totalExpensesMonth
 
     LaunchedEffect(Unit) {
         userViewModel.onEvent(UserEvent.GetData)
         analyticsViewModel.onEvent(AnalyticsEvent.GetSummaryUnpaidExpenses)
+        analyticsViewModel.onEvent(AnalyticsEvent.GetTotalExpenses)
     }
 
     Column(
@@ -90,10 +94,14 @@ fun HomeScreen(
                 }
             }
 
-            expenses.let {
-                ResumoContasCard(expenses ?: emptyList())
-            }
+            ResumoContasCard(expenses ?: emptyList())
 
+
+            if (totalExpenses != null) {
+                if (totalExpenses.isNotEmpty()) {
+                    TotalContasCard(totalExpenses)
+                }
+            }
         }
     }
 }

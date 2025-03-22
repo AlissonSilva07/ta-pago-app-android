@@ -77,7 +77,7 @@ fun ContaItem(
         }
 
         Text(
-            text = expense.amount.toString(),
+            text = "R$ ${expense.amount}",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.inverseOnSurface,
             fontWeight = FontWeight.Normal

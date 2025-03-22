@@ -1,7 +1,8 @@
 package br.alisson.edu.tapago.presentation.tabs
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import br.alisson.edu.tapago.presentation.tabs.home.HomeScreen
 import br.alisson.edu.tapago.presentation.tabs.menu.MenuScreen
 import br.alisson.edu.tapago.presentation.tabs.pay.PayScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TabsScaffold() {

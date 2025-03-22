@@ -3,36 +3,31 @@ package br.alisson.edu.tapago.data.remote.repository
 import android.util.Log
 import br.alisson.edu.tapago.data.remote.api.AnalyticsApi
 import br.alisson.edu.tapago.data.remote.dto.user.ExpenseResponse
+import br.alisson.edu.tapago.domain.repository.AnalyticsRepository
 import br.alisson.edu.tapago.utils.NetworkResult
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onStart
+import javax.inject.Inject
 
 private const val errorMsg = "Algo deu errado."
 
-class AnalyticsRepositoryImpl(
+class AnalyticsRepositoryImpl @Inject constructor (
     private val analyticsApi: AnalyticsApi
-) {
-    fun getSummaryUnpaidExpenses() = flow<NetworkResult<List<ExpenseResponse>>> {
-        try {
+) : AnalyticsRepository {
+    override suspend fun getSummaryUnpaidExpenses(): NetworkResult<List<ExpenseResponse>> {
+        return try {
             val response = analyticsApi.getSummaryUnpaidExpenses()
 
             if (response.isSuccessful && response.body() != null) {
-                emit(NetworkResult.Success(response.body()!!))
+                NetworkResult.Success(response.body()!!)
             } else if (response.errorBody() != null) {
                 val errorMsg = response.errorBody()!!.charStream().readText()
-                emit(NetworkResult.Error(errorMsg))
+                NetworkResult.Error(errorMsg)
             } else {
-                emit(NetworkResult.Error(errorMsg))
+                NetworkResult.Error(errorMsg)
             }
         } catch (e: Exception) {
             Log.e("AnalyticsRepository", "Exception: ${e.message}")
-            emit(NetworkResult.Error(e.message ?: errorMsg))
+            NetworkResult.Error(e.message ?: errorMsg)
         }
-    }.flowOn(Dispatchers.IO)
-        .onStart {
-            Log.i("AnalyticsRepository", "Loading started")
-            emit(NetworkResult.Loading)
-        }
+    }
+
 }

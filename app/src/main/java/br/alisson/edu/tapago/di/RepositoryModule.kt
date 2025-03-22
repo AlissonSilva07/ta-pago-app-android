@@ -8,6 +8,7 @@ import br.alisson.edu.tapago.data.remote.repository.AuthRepositoryImpl
 import br.alisson.edu.tapago.data.remote.repository.UserRepositoryImpl
 import br.alisson.edu.tapago.data.utils.TokenManager
 import br.alisson.edu.tapago.data.utils.UserManager
+import br.alisson.edu.tapago.domain.repository.AnalyticsRepository
 import br.alisson.edu.tapago.domain.repository.AuthRepository
 import br.alisson.edu.tapago.domain.repository.UserRepository
 import dagger.Module
@@ -38,5 +39,5 @@ class RepositoryModule {
     @Singleton
     fun provideAnalyticsRepository(
         analyticsApi: AnalyticsApi,
-    ): AnalyticsRepositoryImpl = AnalyticsRepositoryImpl(analyticsApi)
+    ): AnalyticsRepository = AnalyticsRepositoryImpl(analyticsApi)
 }

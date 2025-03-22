@@ -1,15 +1,12 @@
 package br.alisson.edu.tapago.presentation.tabs.home
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,15 +14,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.alisson.edu.tapago.R
+import br.alisson.edu.tapago.presentation.analytics.AnalyticsEvent
 import br.alisson.edu.tapago.presentation.analytics.AnalyticsViewModel
 import br.alisson.edu.tapago.presentation.tabs.home.components.AcessoRapidoCard
 import br.alisson.edu.tapago.presentation.tabs.home.components.HomeHeader
 import br.alisson.edu.tapago.presentation.tabs.home.components.ResumoContasCard
-import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
 import br.alisson.edu.tapago.presentation.user.UserEvent
 import br.alisson.edu.tapago.presentation.user.UserViewModel
 import com.composables.icons.lucide.CopyPlus
@@ -40,11 +35,12 @@ fun HomeScreen(
     analyticsViewModel: AnalyticsViewModel = hiltViewModel()
 ) {
     val userState = userViewModel.state.collectAsState()
-    val analyticsState = analyticsViewModel.summaryUnpaidExpensesState.collectAsState()
+    val analyticsState = analyticsViewModel.state.collectAsState()
     val expenses = analyticsState.value.summaryUnpaidExpenses
 
     LaunchedEffect(Unit) {
         userViewModel.onEvent(UserEvent.GetData)
+        analyticsViewModel.onEvent(AnalyticsEvent.GetSummaryUnpaidExpenses)
     }
 
     Column(

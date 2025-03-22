@@ -38,7 +38,7 @@ fun ResumoContasCard(
         ) {
             Text(
                 text = "Contas a Vencer",
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )

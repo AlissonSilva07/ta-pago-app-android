@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.alisson.edu.tapago.data.remote.dto.analytics.MonthlyExpenseProgressResponse
 import br.alisson.edu.tapago.data.remote.dto.analytics.TotalExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.analytics.toDomainModel
 import br.alisson.edu.tapago.data.remote.dto.user.ExpenseResponse
@@ -32,10 +33,14 @@ class AnalyticsViewModel @Inject constructor(
     private val _totalExpensesResponse = MutableStateFlow<NetworkResult<List<TotalExpenseResponse>>>(NetworkResult.Idle)
     val totalExpensesResponse = _totalExpensesResponse.asStateFlow()
 
+    private val _monthlyExpenseResponse = MutableStateFlow<NetworkResult<MonthlyExpenseProgressResponse>>(NetworkResult.Idle)
+    val monthlyExpenseResponse = _monthlyExpenseResponse.asStateFlow()
+
     fun onEvent(event: AnalyticsEvent) {
         when (event) {
             is AnalyticsEvent.GetSummaryUnpaidExpenses -> getSummaryUnpaidExpenses()
             is AnalyticsEvent.GetTotalExpenses -> getTotalExpenses()
+            is AnalyticsEvent.GetMonthlyExpenseProgress -> getMonthlyExpenseProgress()
         }
     }
 
@@ -94,7 +99,37 @@ class AnalyticsViewModel @Inject constructor(
                 }
                 Log.d("UserViewModel", "getUser: $response")
             } catch (e: Exception) {
-                _summaryExpensesResponse.value = NetworkResult.Error(e.message ?: "Unknown error")
+                _totalExpensesResponse.value = NetworkResult.Error(e.message ?: "Unknown error")
+            }
+        }
+    }
+
+    private fun getMonthlyExpenseProgress() {
+        viewModelScope.launch {
+            _monthlyExpenseResponse.value = NetworkResult.Loading
+            try {
+                val response = analyticsRepositoryImpl.getMonthlyExpenseProgress()
+                _monthlyExpenseResponse.value = response
+                when (response) {
+                    is NetworkResult.Success -> {
+                        _state.value = _state.value.copy(
+                            montlhyExpenseProgress = response.data.toDomainModel()
+                        )
+                    }
+                    is NetworkResult.Error -> {
+                        _state.value = _state.value.copy(
+                            montlhyExpenseProgress = null,
+                            isLoading = false
+                        )
+                    }
+
+                    else -> {
+                        _state.value = _state.value.copy(isLoading = true)
+                    }
+                }
+                Log.d("UserViewModel", "getUser: $response")
+            } catch (e: Exception) {
+                _monthlyExpenseResponse.value = NetworkResult.Error(e.message ?: "Unknown error")
             }
         }
     }

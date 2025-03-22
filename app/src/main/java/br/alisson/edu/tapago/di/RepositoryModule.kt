@@ -9,6 +9,7 @@ import br.alisson.edu.tapago.data.remote.repository.UserRepositoryImpl
 import br.alisson.edu.tapago.data.utils.TokenManager
 import br.alisson.edu.tapago.data.utils.UserManager
 import br.alisson.edu.tapago.domain.repository.AuthRepository
+import br.alisson.edu.tapago.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,7 +32,7 @@ class RepositoryModule {
     fun provideUserRepository(
         userApi: UserApi,
         userManager: UserManager
-    ): UserRepositoryImpl = UserRepositoryImpl(userApi, userManager)
+    ): UserRepository = UserRepositoryImpl(userApi, userManager)
 
     @Provides
     @Singleton

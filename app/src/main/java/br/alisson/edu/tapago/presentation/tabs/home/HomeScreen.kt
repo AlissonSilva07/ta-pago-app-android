@@ -26,6 +26,7 @@ import br.alisson.edu.tapago.presentation.tabs.home.components.AcessoRapidoCard
 import br.alisson.edu.tapago.presentation.tabs.home.components.HomeHeader
 import br.alisson.edu.tapago.presentation.tabs.home.components.ResumoContasCard
 import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
+import br.alisson.edu.tapago.presentation.user.UserEvent
 import br.alisson.edu.tapago.presentation.user.UserViewModel
 import com.composables.icons.lucide.CopyPlus
 import com.composables.icons.lucide.DollarSign
@@ -38,9 +39,13 @@ fun HomeScreen(
     userViewModel: UserViewModel = hiltViewModel(),
     analyticsViewModel: AnalyticsViewModel = hiltViewModel()
 ) {
-    val userState = userViewModel.userState.collectAsState()
+    val userState = userViewModel.state.collectAsState()
     val analyticsState = analyticsViewModel.summaryUnpaidExpensesState.collectAsState()
     val expenses = analyticsState.value.summaryUnpaidExpenses
+
+    LaunchedEffect(Unit) {
+        userViewModel.onEvent(UserEvent.GetData)
+    }
 
     Column(
         modifier = modifier

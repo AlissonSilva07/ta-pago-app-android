@@ -1,6 +1,7 @@
 package br.alisson.edu.tapago.presentation.user
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,9 +15,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -32,42 +32,45 @@ class UserViewModel @Inject constructor(
         null
     )
 
-    private val _userState: MutableStateFlow<UserState> = MutableStateFlow(UserState())
-    val userState = _userState.asStateFlow()
+    private val _state = MutableStateFlow(UserState())
+    val state: StateFlow<UserState> = _state.asStateFlow()
 
     private val _userResponse = MutableStateFlow<NetworkResult<UserResponse>>(NetworkResult.Idle)
     val userResponse = _userResponse.asStateFlow()
 
-    private fun getUserData() {
-        _userState.value = _userState.value.copy(isLoading = true)
+    fun onEvent(event: UserEvent) {
+        when (event) {
+            is UserEvent.GetData -> getUser()
+        }
+    }
 
-        userRepositoryImpl.getUser()
-            .onEach { result ->
-                when (result) {
+    private fun getUser() {
+        viewModelScope.launch {
+            _userResponse.value = NetworkResult.Loading
+            try {
+                val response = userRepositoryImpl.getUser()
+                _userResponse.value = response
+                when (response) {
                     is NetworkResult.Success -> {
-                        _userState.value = _userState.value.copy(
-                            userData = result.data.toDomainModel(),
-                            isLoading = false
+                        _state.value = _state.value.copy(
+                            userData = response.data.toDomainModel()
                         )
                     }
-
                     is NetworkResult.Error -> {
-                        _userState.value = _userState.value.copy(
+                        _state.value = _state.value.copy(
                             userData = null,
                             isLoading = false
                         )
                     }
 
                     else -> {
-                        _userState.value = _userState.value.copy(isLoading = true)
+                        _state.value = _state.value.copy(isLoading = true)
                     }
                 }
-                _userResponse.value = result
+                Log.d("UserViewModel", "getUser: $response")
+            } catch (e: Exception) {
+                _userResponse.value = NetworkResult.Error(e.message ?: "Unknown error")
             }
-            .launchIn(viewModelScope)
-    }
-
-    init {
-        getUserData()
+        }
     }
 }

@@ -1,6 +1,8 @@
 package br.alisson.edu.tapago.presentation.tabs.menu
 
 import android.app.Activity
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +31,9 @@ import br.alisson.edu.tapago.core.components.CustomButton
 import br.alisson.edu.tapago.presentation.user.UserViewModel
 import coil.compose.AsyncImage
 import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
+import br.alisson.edu.tapago.presentation.user.UserEvent
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MenuScreen(
     modifier: Modifier = Modifier,
@@ -36,7 +41,11 @@ fun MenuScreen(
     userViewModel: UserViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val userState = userViewModel.userState.collectAsState()
+    val userState = userViewModel.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        userViewModel.onEvent(UserEvent.GetData)
+    }
 
     Column(
         modifier = modifier
@@ -50,7 +59,7 @@ fun MenuScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             AsyncImage(
-                model = userState.value.userData?.profilePicture ?: R.drawable.top_image,
+                model = userState.value.userData?.profilePicture ?: R.drawable.logo_splash,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -102,13 +111,5 @@ fun MenuScreen(
             )
         }
 
-    }
-}
-
-@Preview
-@Composable
-private fun MenuPreview() {
-    TaPagoTheme(dynamicColor = false) {
-        MenuScreen()
     }
 }

@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.data.remote.model.auth
+package br.alisson.edu.tapago.data.remote.dto.auth
 
 data class UserLoginResponse(
     val id: String,

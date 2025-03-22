@@ -1,9 +1,8 @@
 package br.alisson.edu.tapago.data.remote.repository
 
 import android.util.Log
-import br.alisson.edu.tapago.data.remote.api.UserApi
-import br.alisson.edu.tapago.data.remote.model.user.UserResponse
-import br.alisson.edu.tapago.data.utils.UserManager
+import br.alisson.edu.tapago.data.remote.api.AnalyticsApi
+import br.alisson.edu.tapago.data.remote.dto.user.ExpenseResponse
 import br.alisson.edu.tapago.utils.NetworkResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -12,17 +11,15 @@ import kotlinx.coroutines.flow.onStart
 
 private const val errorMsg = "Algo deu errado."
 
-class UserRepository(
-    private val userApi: UserApi,
-    private val userManager: UserManager
+class AnalyticsRepositoryImpl(
+    private val analyticsApi: AnalyticsApi
 ) {
-    fun getUser() = flow<NetworkResult<UserResponse>> {
+    fun getSummaryUnpaidExpenses() = flow<NetworkResult<List<ExpenseResponse>>> {
         try {
-            val response = userApi.getUser()
+            val response = analyticsApi.getSummaryUnpaidExpenses()
 
             if (response.isSuccessful && response.body() != null) {
                 emit(NetworkResult.Success(response.body()!!))
-                userManager.updateUserData(response.body()!!.toString())
             } else if (response.errorBody() != null) {
                 val errorMsg = response.errorBody()!!.charStream().readText()
                 emit(NetworkResult.Error(errorMsg))
@@ -30,12 +27,12 @@ class UserRepository(
                 emit(NetworkResult.Error(errorMsg))
             }
         } catch (e: Exception) {
-            Log.e("UserRepository", "Exception: ${e.message}")
+            Log.e("AnalyticsRepository", "Exception: ${e.message}")
             emit(NetworkResult.Error(e.message ?: errorMsg))
         }
     }.flowOn(Dispatchers.IO)
         .onStart {
-            Log.i("UserRepository", "Loading started")
+            Log.i("AnalyticsRepository", "Loading started")
             emit(NetworkResult.Loading)
         }
 }

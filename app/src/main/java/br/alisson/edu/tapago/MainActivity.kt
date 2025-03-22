@@ -9,7 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.ui.graphics.toArgb
-import br.alisson.edu.tapago.presentation.auth.AuthViewModel
+import br.alisson.edu.tapago.presentation.auth.login.LoginViewModel
 import br.alisson.edu.tapago.presentation.navigation.AppNavHost
 import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
 import br.alisson.edu.tapago.presentation.ui.theme.primary
@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val authViewModel: AuthViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             TaPagoTheme(darkTheme = false, dynamicColor = false) {
-                AppNavHost(authViewModel = authViewModel)
+                AppNavHost(loginViewModel = loginViewModel)
             }
         }
     }

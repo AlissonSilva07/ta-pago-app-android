@@ -3,11 +3,7 @@ package br.alisson.edu.tapago.di
 import br.alisson.edu.tapago.data.remote.api.AnalyticsApi
 import br.alisson.edu.tapago.data.remote.api.AuthApi
 import br.alisson.edu.tapago.data.remote.api.UserApi
-import br.alisson.edu.tapago.data.remote.repository.AuthRepository
-import br.alisson.edu.tapago.data.remote.repository.UserRepository
 import br.alisson.edu.tapago.data.utils.AuthInterceptor
-import br.alisson.edu.tapago.data.utils.TokenManager
-import br.alisson.edu.tapago.data.utils.UserManager
 import br.alisson.edu.tapago.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides

@@ -4,9 +4,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.alisson.edu.tapago.data.remote.model.user.ExpenseResponse
-import br.alisson.edu.tapago.data.remote.model.user.toDomainModel
-import br.alisson.edu.tapago.data.remote.repository.AnalyticsRepository
+import br.alisson.edu.tapago.data.remote.dto.user.ExpenseResponse
+import br.alisson.edu.tapago.data.remote.dto.user.toDomainModel
+import br.alisson.edu.tapago.data.remote.repository.AnalyticsRepositoryImpl
 import br.alisson.edu.tapago.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class AnalyticsViewModel @Inject constructor(
-    private val analyticsRepository: AnalyticsRepository
+    private val analyticsRepositoryImpl: AnalyticsRepositoryImpl
 ): ViewModel() {
 
     private val _summaryUnpaidExpensesState: MutableStateFlow<SummaryUnpaidState> = MutableStateFlow(SummaryUnpaidState())
@@ -30,7 +30,7 @@ class AnalyticsViewModel @Inject constructor(
     private fun getExpenses() {
         _summaryUnpaidExpensesState.value = _summaryUnpaidExpensesState.value.copy(isLoading = true)
 
-        analyticsRepository.getSummaryUnpaidExpenses()
+        analyticsRepositoryImpl.getSummaryUnpaidExpenses()
             .onEach { result ->
                 when (result) {
                     is NetworkResult.Success -> {

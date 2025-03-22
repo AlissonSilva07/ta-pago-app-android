@@ -14,7 +14,6 @@ import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.alisson.edu.tapago.core.components.*
-import br.alisson.edu.tapago.presentation.auth.AuthViewModel
 import br.alisson.edu.tapago.utils.NetworkResult
 import com.composables.icons.lucide.*
 import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
@@ -25,11 +24,11 @@ fun LoginScreen(
     navigateBack: () -> Unit = {},
     navigateToSignup: () -> Unit = {},
     navigateToHome: () -> Unit = {},
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val loginResponse by viewModel.loginResponse.collectAsState()
-    val loginState by viewModel.loginState.collectAsState()
+    val loginState by viewModel.state.collectAsState()
 
     LaunchedEffect(loginResponse) {
         when (loginResponse) {
@@ -121,7 +120,7 @@ fun LoginScreen(
                     label = "E-mail:",
                     value = loginState.email,
                     onValueChange = { newValue ->
-                        viewModel.onEventLogin(LoginEvents.UpdateEmail(newValue))
+                        viewModel.onEvent(LoginEvent.UpdateEmail(newValue))
                     },
                     error = loginState.emailError,
                 )
@@ -131,7 +130,7 @@ fun LoginScreen(
                     label = "Senha:",
                     value = loginState.password,
                     onValueChange = { newValue ->
-                        viewModel.onEventLogin(LoginEvents.UpdatePassword(newValue))
+                        viewModel.onEvent(LoginEvent.UpdatePassword(newValue))
                     },
                     type = TextFieldType.PASSWORD,
                     error = loginState.passwordError,
@@ -146,7 +145,7 @@ fun LoginScreen(
                 CustomButton(
                     title = "Entrar",
                     onClick = {
-                        viewModel.onEventLogin(LoginEvents.Login(
+                        viewModel.onEvent(LoginEvent.Login(
                             email = loginState.email,
                             password = loginState.password
                         ))

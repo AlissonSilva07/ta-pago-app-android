@@ -1,9 +1,9 @@
 package br.alisson.edu.tapago.data.remote.repository
 
 import android.util.Log
-import br.alisson.edu.tapago.data.remote.api.AnalyticsApi
-import br.alisson.edu.tapago.data.remote.model.user.ExpenseResponse
-import br.alisson.edu.tapago.domain.model.Expense
+import br.alisson.edu.tapago.data.remote.api.UserApi
+import br.alisson.edu.tapago.data.remote.dto.user.UserResponse
+import br.alisson.edu.tapago.data.utils.UserManager
 import br.alisson.edu.tapago.utils.NetworkResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -12,15 +12,17 @@ import kotlinx.coroutines.flow.onStart
 
 private const val errorMsg = "Algo deu errado."
 
-class AnalyticsRepository(
-    private val analyticsApi: AnalyticsApi
+class UserRepositoryImpl(
+    private val userApi: UserApi,
+    private val userManager: UserManager
 ) {
-    fun getSummaryUnpaidExpenses() = flow<NetworkResult<List<ExpenseResponse>>> {
+    fun getUser() = flow<NetworkResult<UserResponse>> {
         try {
-            val response = analyticsApi.getSummaryUnpaidExpenses()
+            val response = userApi.getUser()
 
             if (response.isSuccessful && response.body() != null) {
                 emit(NetworkResult.Success(response.body()!!))
+                userManager.updateUserData(response.body()!!.toString())
             } else if (response.errorBody() != null) {
                 val errorMsg = response.errorBody()!!.charStream().readText()
                 emit(NetworkResult.Error(errorMsg))
@@ -28,12 +30,12 @@ class AnalyticsRepository(
                 emit(NetworkResult.Error(errorMsg))
             }
         } catch (e: Exception) {
-            Log.e("AnalyticsRepository", "Exception: ${e.message}")
+            Log.e("UserRepository", "Exception: ${e.message}")
             emit(NetworkResult.Error(e.message ?: errorMsg))
         }
     }.flowOn(Dispatchers.IO)
         .onStart {
-            Log.i("AnalyticsRepository", "Loading started")
+            Log.i("UserRepository", "Loading started")
             emit(NetworkResult.Loading)
         }
 }

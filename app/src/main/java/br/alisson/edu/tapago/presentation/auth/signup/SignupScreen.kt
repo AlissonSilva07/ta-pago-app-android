@@ -44,7 +44,6 @@ import br.alisson.edu.tapago.core.components.CustomButton
 import br.alisson.edu.tapago.core.components.CustomTextField
 import br.alisson.edu.tapago.core.components.PhotoSelectorView
 import br.alisson.edu.tapago.core.components.TextFieldType
-import br.alisson.edu.tapago.presentation.auth.AuthViewModel
 import br.alisson.edu.tapago.utils.NetworkResult
 import com.composables.icons.lucide.ChevronLeft
 import com.composables.icons.lucide.Lucide
@@ -56,11 +55,11 @@ import java.io.File
 fun SignupScreen(
     navigateBack: () -> Unit = {},
     navigateToLogin: () -> Unit = {},
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: SignUpViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val signUpResponse by viewModel.signUpResponse.collectAsState()
-    val signUpState by viewModel.signUpState.collectAsState()
+    val signUpState by viewModel.state.collectAsState()
 
     LaunchedEffect(signUpResponse) {
         when (signUpResponse) {
@@ -161,7 +160,7 @@ fun SignupScreen(
                         selectedImageUri = uri
                         uri?.let {
                             val file = uriToFile(context, it)
-                            viewModel.onEventSignUp(SignUpEvents.UpdateProfilePicture(file))
+                            viewModel.onEvent(SignUpEvent.UpdateProfilePicture(file))
                         }
                     }
                 )
@@ -176,7 +175,7 @@ fun SignupScreen(
                     label = "Digite seu nome:",
                     value = signUpState.name,
                     onValueChange = { newValue ->
-                        viewModel.onEventSignUp(SignUpEvents.UpdateName(newValue))
+                        viewModel.onEvent(SignUpEvent.UpdateName(newValue))
                     },
                     error = signUpState.nameError
                 )
@@ -186,7 +185,7 @@ fun SignupScreen(
                     label = "Digite seu e-mail:",
                     value = signUpState.email,
                     onValueChange = { newValue ->
-                        viewModel.onEventSignUp(SignUpEvents.UpdateEmail(newValue))
+                        viewModel.onEvent(SignUpEvent.UpdateEmail(newValue))
                     },
                     error = signUpState.emailError
                 )
@@ -196,7 +195,7 @@ fun SignupScreen(
                     label = "Digite uma senha forte:",
                     value = signUpState.password,
                     onValueChange = { newValue ->
-                        viewModel.onEventSignUp(SignUpEvents.UpdatePassword(newValue))
+                        viewModel.onEvent(SignUpEvent.UpdatePassword(newValue))
                     },
                     error = signUpState.passwordError,
                     type = TextFieldType.PASSWORD
@@ -211,7 +210,7 @@ fun SignupScreen(
                 CustomButton(
                     title = "Cadastrar",
                     onClick = {
-                        viewModel.onEventSignUp(SignUpEvents.SignUp(
+                        viewModel.onEvent(SignUpEvent.SignUp(
                             name = signUpState.name,
                             email = signUpState.email,
                             password = signUpState.password,

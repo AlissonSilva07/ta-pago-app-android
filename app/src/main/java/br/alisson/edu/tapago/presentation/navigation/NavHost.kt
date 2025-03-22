@@ -8,8 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.alisson.edu.tapago.presentation.auth.AuthViewModel
 import br.alisson.edu.tapago.presentation.auth.login.LoginScreen
+import br.alisson.edu.tapago.presentation.auth.login.LoginViewModel
 import br.alisson.edu.tapago.presentation.auth.signup.SignupScreen
 import br.alisson.edu.tapago.presentation.splash.SplashScreen
 import br.alisson.edu.tapago.presentation.tabs.TabsScaffold
@@ -17,9 +17,9 @@ import br.alisson.edu.tapago.presentation.welcome.WelcomeScreen
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun AppNavHost(authViewModel: AuthViewModel) {
+fun AppNavHost(loginViewModel: LoginViewModel) {
     val navController = rememberNavController()
-    val authToken by authViewModel.authToken.collectAsState()
+    val authToken by loginViewModel.authToken.collectAsState()
 
     val startDestination = if (authToken.isNullOrEmpty()) {
         Screen.Splash.route

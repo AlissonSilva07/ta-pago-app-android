@@ -4,9 +4,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.alisson.edu.tapago.data.remote.model.user.UserResponse
-import br.alisson.edu.tapago.data.remote.model.user.toDomainModel
-import br.alisson.edu.tapago.data.remote.repository.UserRepository
+import br.alisson.edu.tapago.data.remote.dto.user.UserResponse
+import br.alisson.edu.tapago.data.remote.dto.user.toDomainModel
+import br.alisson.edu.tapago.data.remote.repository.UserRepositoryImpl
 import br.alisson.edu.tapago.data.utils.UserManager
 import br.alisson.edu.tapago.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +22,7 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    private val userRepository: UserRepository,
+    private val userRepositoryImpl: UserRepositoryImpl,
     private val userManager: UserManager
 ) : ViewModel() {
 
@@ -41,7 +41,7 @@ class UserViewModel @Inject constructor(
     private fun getUserData() {
         _userState.value = _userState.value.copy(isLoading = true)
 
-        userRepository.getUser()
+        userRepositoryImpl.getUser()
             .onEach { result ->
                 when (result) {
                     is NetworkResult.Success -> {

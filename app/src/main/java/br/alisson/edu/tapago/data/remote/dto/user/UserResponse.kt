@@ -1,13 +1,10 @@
-package br.alisson.edu.tapago.data.remote.model.user
+package br.alisson.edu.tapago.data.remote.dto.user
 
 import android.os.Build
 import android.util.Base64
 import androidx.annotation.RequiresApi
 import br.alisson.edu.tapago.domain.model.User
 import br.alisson.edu.tapago.utils.formatDateAdapter
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 data class UserResponse(
     val createdAt: String,

@@ -37,7 +37,7 @@ fun TabsScaffold() {
     val currentRoute = navBackStackEntry.value?.destination?.route
     val title = when (currentRoute) {
         BottomNavItem.Home.route -> "Home"
-        BottomNavItem.Pay.route -> "Pay"
+        BottomNavItem.Pay.route -> "Gastos"
         BottomNavItem.Menu.route -> "Menu"
         else -> ""
     }

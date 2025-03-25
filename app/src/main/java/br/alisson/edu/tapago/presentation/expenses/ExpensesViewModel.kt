@@ -25,30 +25,47 @@ class ExpensesViewModel @Inject constructor(
 
     fun onEvent(event: ExpensesEvent) {
         when (event) {
-            is ExpensesEvent.GetExpenses -> getExpenses()
+            is ExpensesEvent.GetExpenses -> getExpenses(resetPage = true)
+            is ExpensesEvent.UpdateSearch -> {
+                _state.value = _state.value.copy(search = event.search)
+                getExpenses(resetPage = true)
+            }
+            is ExpensesEvent.UpdateSort -> {
+                _state.value = _state.value.copy(sortBy = event.sortBy, sortOrder = event.sortOrder)
+                getExpenses(resetPage = true)
+            }
         }
     }
 
-    private fun getExpenses() {
+    private fun getExpenses(resetPage: Boolean) {
+        if (_state.value.isLoading) return
+
+        _state.value = _state.value.copy(isLoading = true)
+
         viewModelScope.launch {
-            _expensesResponse.value = NetworkResult.Loading
             try {
+                val currentPage = if (resetPage) 1 else _state.value.page
                 val response = expensesRepository.getExpenses(
-                    page = 1,
-                    size = 10,
-                    search = null,
-                    sortBy = null,
-                    sortOrder = null
+                    page = currentPage,
+                    size = _state.value.size,
+                    search = _state.value.search,
+                    sortBy = _state.value.sortBy,
+                    sortOrder = _state.value.sortOrder
                 )
+
+                _expensesResponse.value = response
                 when (response) {
                     is NetworkResult.Success -> {
+                        val newExpenses = response.data.expenses
                         _state.value = _state.value.copy(
-                            expenses = response.data.expenses
+                            expenses = if (resetPage) newExpenses else _state.value.expenses + newExpenses,
+                            page = currentPage + 1,
+                            isLoading = false
                         )
                     }
                     is NetworkResult.Error -> {
                         _state.value = _state.value.copy(
-                            expenses = null,
+                            errorMessage = "Failed to load expenses",
                             isLoading = false
                         )
                     }
@@ -58,7 +75,10 @@ class ExpensesViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
-                _expensesResponse.value = NetworkResult.Error(e.message ?: "Unknown error")
+                _state.value = _state.value.copy(
+                    errorMessage = e.message,
+                    isLoading = false
+                )
             }
         }
     }

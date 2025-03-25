@@ -13,10 +13,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
+enum class ChipActions {
+    TODOS, PROXIMOS, DISTANTES, ORDEM_AZ, ORDEM_ZA
+}
+
 data class ChipType(
     val id: Number,
     val label: String,
-    val selected: Boolean,
+    val action: ChipActions,
 )
 
 @Composable
@@ -63,21 +67,26 @@ val chipTypes = listOf(
     ChipType(
         id = 1,
         label = "Todos",
-        selected = true,
+        action = ChipActions.TODOS
     ),
     ChipType(
         id = 2,
-        label = "Vencidos",
-        selected = false,
+        label = "Vencimento Próximo",
+        action = ChipActions.PROXIMOS
     ),
     ChipType(
         id = 3,
-        label = "Mais Recentes",
-        selected = false,
+        label = "Vencimento Distante",
+        action = ChipActions.DISTANTES
     ),
     ChipType(
         id = 4,
-        label = "Mais Antigos",
-        selected = false,
+        label = "Ordem: A-Z",
+        action = ChipActions.ORDEM_AZ
     ),
+    ChipType(
+        id = 5,
+        label = "Ordem: Z-A",
+        action = ChipActions.ORDEM_ZA
+    )
 )

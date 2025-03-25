@@ -25,11 +25,11 @@ fun CustomSearchBar(
         onValueChange = onValueChange,
         shape = RoundedCornerShape(16.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
-            unfocusedBorderColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
-            cursorColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
-            unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
-            focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
+            focusedBorderColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f),
+            unfocusedBorderColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f),
+            cursorColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f),
+            focusedContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f),
         ),
         placeholder = {
             Text(

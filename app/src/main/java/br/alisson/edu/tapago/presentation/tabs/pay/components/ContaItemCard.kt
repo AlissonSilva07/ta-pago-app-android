@@ -10,20 +10,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.alisson.edu.tapago.domain.model.Expense
-import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
 import br.alisson.edu.tapago.utils.formatDateAdapter
 import com.composables.icons.lucide.HousePlug
 import com.composables.icons.lucide.Lucide
@@ -118,12 +118,23 @@ fun ContaItemCard(
                     )
                 }
 
-                Text(
-                    text = "Abrir",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold
-                )
+                TextButton(
+                    colors = ButtonColors(
+                        contentColor = MaterialTheme.colorScheme.primary,
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        disabledContentColor = MaterialTheme.colorScheme.inverseSurface,
+                        disabledContainerColor = MaterialTheme.colorScheme.onSurface
+                    ),
+                    modifier = Modifier
+                        .padding(0.dp),
+                    onClick = { /*TODO*/ }
+                ) {
+                    Text(
+                        text = "Abrir",
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
             }
         }
     }

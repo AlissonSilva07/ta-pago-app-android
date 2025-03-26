@@ -1,5 +1,7 @@
 package br.alisson.edu.tapago.presentation.tabs.pay.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,13 +24,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.alisson.edu.tapago.domain.model.Expense
 import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
+import br.alisson.edu.tapago.utils.formatDateAdapter
 import com.composables.icons.lucide.HousePlug
 import com.composables.icons.lucide.Lucide
+import java.time.Instant
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ContaItemCard(
     expense: Expense
 ) {
+    val status = when (expense.isPaid) {
+        true -> "Pago"
+        false -> "Não Pago"
+    }
+
+    val due = when {
+        Instant.parse(expense.dueDate).isBefore(Instant.now()) && status == "Pago" -> "Pago"
+        Instant.parse(expense.dueDate).isBefore(Instant.now()) && status == "Não Pago" -> "Vencido"
+        Instant.parse(expense.dueDate).isAfter(Instant.now()) && status == "Pago" -> "Pago"
+        Instant.parse(expense.dueDate).isAfter(Instant.now()) && status == "Não Pago" -> "A vencer"
+        else -> "Vence hoje"
+    }
+
     Card (
         shape = RoundedCornerShape(16.dp),
         colors = CardColors(
@@ -87,13 +105,13 @@ fun ContaItemCard(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Vencimento: ${expense.dueDate}",
+                        text = "Vencimento: ${formatDateAdapter(expense.dueDate)}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.inverseOnSurface,
                         fontWeight = FontWeight.Normal
                     )
                     Text(
-                        text = "Status: ${if (expense.isPaid) "Pago" else "Vencido"}",
+                        text = "Status: $due",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.inverseOnSurface,
                         fontWeight = FontWeight.Normal
@@ -108,25 +126,5 @@ fun ContaItemCard(
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-private fun ContaItemExtendedPrev() {
-    TaPagoTheme {
-        ContaItemCard(
-            expense = Expense(
-                id = "1",
-                title = "Conta Abril",
-                category = "Alimentacao",
-                isPaid = false,
-                userId = "1",
-                description = "Descricao teste",
-                createdAt = "2025-08-04",
-                amount = 500,
-                dueDate = "2025-08-09"
-            )
-        )
     }
 }

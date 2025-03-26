@@ -10,6 +10,6 @@ import java.time.format.DateTimeFormatter
 fun formatDateAdapter(dateString: String): String {
     val instant = Instant.parse(dateString)
     val localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate()
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val formatter = DateTimeFormatter.ofPattern("dd 'de' MMMM", java.util.Locale("pt", "BR"))
     return localDate.format(formatter)
 }

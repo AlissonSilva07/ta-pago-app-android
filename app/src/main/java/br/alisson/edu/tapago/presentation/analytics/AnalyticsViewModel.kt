@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import br.alisson.edu.tapago.data.remote.dto.analytics.MonthlyExpenseProgressResponse
 import br.alisson.edu.tapago.data.remote.dto.analytics.TotalExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.analytics.toDomainModel
-import br.alisson.edu.tapago.data.remote.dto.user.ExpenseResponse
-import br.alisson.edu.tapago.data.remote.dto.user.toDomainModel
+import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
+import br.alisson.edu.tapago.data.remote.dto.expenses.toDomainModel
 import br.alisson.edu.tapago.data.remote.repository.AnalyticsRepositoryImpl
 import br.alisson.edu.tapago.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel

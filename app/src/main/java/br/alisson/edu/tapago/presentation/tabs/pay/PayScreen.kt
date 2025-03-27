@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +46,10 @@ fun PayScreen(
     val expensesState = viewModel.state.collectAsState()
     val expenses = expensesState.value.expenses
     var selectedChip by remember { mutableStateOf(chipTypes.first().id) }
+
+    LaunchedEffect(Unit) {
+        viewModel.onEvent(ExpensesEvent.GetExpenses)
+    }
 
     Column(
         modifier = modifier

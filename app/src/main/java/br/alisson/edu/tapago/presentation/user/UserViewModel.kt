@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.alisson.edu.tapago.data.remote.dto.user.UserResponse
+import br.alisson.edu.tapago.data.remote.dto.expenses.toDomainModel
 import br.alisson.edu.tapago.data.remote.dto.user.toDomainModel
 import br.alisson.edu.tapago.data.remote.repository.UserRepositoryImpl
 import br.alisson.edu.tapago.data.utils.UserManager

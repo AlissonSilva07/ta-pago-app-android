@@ -4,7 +4,7 @@ import android.util.Log
 import br.alisson.edu.tapago.data.remote.api.AnalyticsApi
 import br.alisson.edu.tapago.data.remote.dto.analytics.MonthlyExpenseProgressResponse
 import br.alisson.edu.tapago.data.remote.dto.analytics.TotalExpenseResponse
-import br.alisson.edu.tapago.data.remote.dto.user.ExpenseResponse
+import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
 import br.alisson.edu.tapago.domain.repository.AnalyticsRepository
 import br.alisson.edu.tapago.utils.NetworkResult
 import javax.inject.Inject

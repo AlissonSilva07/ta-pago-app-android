@@ -1,5 +1,6 @@
 package br.alisson.edu.tapago.domain.repository
 
+import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.GetExpensesResponse
 import br.alisson.edu.tapago.utils.NetworkResult
 
@@ -11,4 +12,8 @@ interface ExpensesRepository {
         sortBy: String? = null,
         sortOrder: String? = null
     ): NetworkResult<GetExpensesResponse>
+
+    suspend fun getExpensesById(
+        id: String
+    ): NetworkResult<ExpenseResponse>
 }

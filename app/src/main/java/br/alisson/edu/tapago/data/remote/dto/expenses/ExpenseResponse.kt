@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.data.remote.dto.user
+package br.alisson.edu.tapago.data.remote.dto.expenses
 
 import android.os.Build
 import androidx.annotation.RequiresApi

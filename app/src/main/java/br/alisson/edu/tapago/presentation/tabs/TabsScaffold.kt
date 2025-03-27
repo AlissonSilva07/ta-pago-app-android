@@ -17,14 +17,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import br.alisson.edu.tapago.presentation.tabs.components.BottomNavBar
 import br.alisson.edu.tapago.presentation.tabs.components.BottomNavItem
+import br.alisson.edu.tapago.presentation.tabs.components.PayRoutes
 import br.alisson.edu.tapago.presentation.tabs.home.HomeScreen
 import br.alisson.edu.tapago.presentation.tabs.menu.MenuScreen
+import br.alisson.edu.tapago.presentation.tabs.pay.PayItemDetailsScreen
 import br.alisson.edu.tapago.presentation.tabs.pay.PayScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -37,7 +41,8 @@ fun TabsScaffold() {
     val currentRoute = navBackStackEntry.value?.destination?.route
     val title = when (currentRoute) {
         BottomNavItem.Home.route -> "Home"
-        BottomNavItem.Pay.route -> "Gastos"
+        PayRoutes.Pay -> "Gastos"
+        PayRoutes.PayItemDetails -> "Detalhes do Gasto"
         BottomNavItem.Menu.route -> "Menu"
         else -> ""
     }
@@ -87,8 +92,24 @@ fun TabsScaffold() {
                 )
             }
 
-            composable(BottomNavItem.Pay.route) {
-                PayScreen(modifier = Modifier.padding(padding))
+            composable(PayRoutes.Pay) {
+                PayScreen(
+                    modifier = Modifier.padding(padding),
+                    onNavigateToDetails = { itemId ->
+                        tabNavController.navigate(PayRoutes.getPayItemDetailsRoute(itemId))
+                    }
+                )
+            }
+
+            composable(
+                route = PayRoutes.PayItemDetails,
+                arguments = listOf(navArgument("itemId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val itemId = backStackEntry.arguments?.getString("itemId")
+                PayItemDetailsScreen(
+                    modifier = Modifier.padding(padding),
+                    itemId = itemId
+                )
             }
 
             composable(BottomNavItem.Menu.route) {

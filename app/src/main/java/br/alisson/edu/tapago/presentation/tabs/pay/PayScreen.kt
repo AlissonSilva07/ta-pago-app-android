@@ -1,5 +1,7 @@
 package br.alisson.edu.tapago.presentation.tabs.pay
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,9 +35,11 @@ import br.alisson.edu.tapago.presentation.tabs.pay.components.CustomChip
 import br.alisson.edu.tapago.presentation.tabs.pay.components.chipTypes
 import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PayScreen(
     modifier: Modifier = Modifier,
+    onNavigateToDetails: (String) -> Unit = {},
     viewModel: ExpensesViewModel = hiltViewModel()
 ) {
     val expensesState = viewModel.state.collectAsState()
@@ -45,7 +49,7 @@ fun PayScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+            .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -88,17 +92,10 @@ fun PayScreen(
         ) {
             items(expenses) { item ->
                 ContaItemCard(
-                    expense = item
+                    expense = item,
+                    onNavigateToDetails = onNavigateToDetails
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-private fun PayScreenPrev() {
-    TaPagoTheme {
-        PayScreen()
     }
 }

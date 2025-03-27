@@ -42,13 +42,6 @@ fun HomeScreen(
     val totalExpenses = analyticsState.value.totalExpensesMonth
     val monthlyExpenseProgress = analyticsState.value.montlhyExpenseProgress
 
-    LaunchedEffect(Unit) {
-        userViewModel.onEvent(UserEvent.GetData)
-        analyticsViewModel.onEvent(AnalyticsEvent.GetSummaryUnpaidExpenses)
-        analyticsViewModel.onEvent(AnalyticsEvent.GetTotalExpenses)
-        analyticsViewModel.onEvent(AnalyticsEvent.GetMonthlyExpenseProgress)
-    }
-
     Column(
         modifier = modifier
             .padding(16.dp),

@@ -32,7 +32,8 @@ import java.time.Instant
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ContaItemCard(
-    expense: Expense
+    expense: Expense,
+    onNavigateToDetails: (String) -> Unit = {},
 ) {
     val status = when (expense.isPaid) {
         true -> "Pago"
@@ -47,7 +48,7 @@ fun ContaItemCard(
         else -> "Vence hoje"
     }
 
-    Card (
+    Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardColors(
             containerColor = MaterialTheme.colorScheme.secondary,
@@ -127,7 +128,7 @@ fun ContaItemCard(
                     ),
                     modifier = Modifier
                         .padding(0.dp),
-                    onClick = { /*TODO*/ }
+                    onClick = { onNavigateToDetails(expense.id) }
                 ) {
                     Text(
                         text = "Abrir",

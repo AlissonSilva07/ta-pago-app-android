@@ -73,4 +73,8 @@ class UserViewModel @Inject constructor(
             }
         }
     }
+
+    init {
+        onEvent(UserEvent.GetData)
+    }
 }

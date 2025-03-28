@@ -147,13 +147,15 @@ fun PayItemDetailsScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            CustomButton(
-                title = "Tá Pago",
-                variant = ButtonVariant.DEFAULT,
-                disabled = false,
-                onClick = {},
-                modifier = Modifier.fillMaxWidth()
-            )
+            if (expense?.isPaid == false) {
+                CustomButton(
+                    title = "Tá Pago",
+                    variant = ButtonVariant.DEFAULT,
+                    disabled = false,
+                    onClick = {},
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
             CustomButton(
                 title = "Excluir Gasto",
                 variant = ButtonVariant.DESTRUCTIVE,

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.alisson.edu.tapago.data.remote.dto.expenses.DeleteExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.GetExpensesResponse
+import br.alisson.edu.tapago.data.remote.dto.expenses.PayExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.toDomainModel
 import br.alisson.edu.tapago.domain.repository.ExpensesRepository
 import br.alisson.edu.tapago.utils.NetworkResult
@@ -35,6 +36,9 @@ class ExpensesViewModel @Inject constructor(
     private val _deleteExpensesByIdResponse = MutableStateFlow<NetworkResult<DeleteExpenseResponse>>(NetworkResult.Idle)
     val deleteExpensesByIdResponse = _deleteExpensesByIdResponse.asStateFlow()
 
+    private val _payExpensesByIdResponse = MutableStateFlow<NetworkResult<PayExpenseResponse>>(NetworkResult.Idle)
+    val payExpensesByIdResponse = _payExpensesByIdResponse.asStateFlow()
+
     fun onEvent(event: ExpensesEvent) {
         when (event) {
             is ExpensesEvent.GetExpenses -> getExpenses(resetPage = true)
@@ -48,6 +52,7 @@ class ExpensesViewModel @Inject constructor(
             }
             is ExpensesEvent.GetExpenseById -> getExpenseById(event.id)
             is ExpensesEvent.DeleteExpenseById -> deleteExpenseById(event.id)
+            is ExpensesEvent.PayExpenseById -> payExpenseById(event.id)
         }
     }
 
@@ -145,6 +150,43 @@ class ExpensesViewModel @Inject constructor(
                 val response = expensesRepository.deleteExpensesById(id)
 
                 _deleteExpensesByIdResponse.value = response
+                when (response) {
+                    is NetworkResult.Success -> {
+                        _state.value = _state.value.copy(
+                            successMessage = response.data.message,
+                            isLoading = false
+                        )
+                    }
+                    is NetworkResult.Error -> {
+                        _state.value = _state.value.copy(
+                            errorMessage = response.msg,
+                            isLoading = false
+                        )
+                    }
+
+                    else -> {
+                        _state.value = _state.value.copy(isLoading = true)
+                    }
+                }
+            } catch (e: Exception) {
+                _state.value = _state.value.copy(
+                    errorMessage = e.message,
+                    isLoading = false
+                )
+            }
+        }
+    }
+
+    private fun payExpenseById(id: String) {
+        if (_state.value.isLoading) return
+
+        _state.value = _state.value.copy(isLoading = true)
+
+        viewModelScope.launch {
+            try {
+                val response = expensesRepository.payExpensesById(id)
+
+                _payExpensesByIdResponse.value = response
                 when (response) {
                     is NetworkResult.Success -> {
                         _state.value = _state.value.copy(

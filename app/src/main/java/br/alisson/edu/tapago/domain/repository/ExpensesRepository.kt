@@ -3,6 +3,7 @@ package br.alisson.edu.tapago.domain.repository
 import br.alisson.edu.tapago.data.remote.dto.expenses.DeleteExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.GetExpensesResponse
+import br.alisson.edu.tapago.data.remote.dto.expenses.PayExpenseResponse
 import br.alisson.edu.tapago.utils.NetworkResult
 
 interface ExpensesRepository {
@@ -21,4 +22,8 @@ interface ExpensesRepository {
     suspend fun deleteExpensesById(
         id: String
     ): NetworkResult<DeleteExpenseResponse>
+
+    suspend fun payExpensesById(
+        id: String
+    ): NetworkResult<PayExpenseResponse>
 }

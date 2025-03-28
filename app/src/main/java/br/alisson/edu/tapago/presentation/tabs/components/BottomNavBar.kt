@@ -85,9 +85,11 @@ fun RowScope.AddItem(
                 }
             )
             .clickable {
-                navController.navigate(screen.route) {
-                    popUpTo(navController.graph.findStartDestination().id)
-                    launchSingleTop = true
+                if (currentDestination?.route != screen.route) {
+                    navController.navigate(screen.route) {
+                        popUpTo(navController.graph.findStartDestination().id)
+                        launchSingleTop = true
+                    }
                 }
             },
         contentAlignment = Alignment.Center

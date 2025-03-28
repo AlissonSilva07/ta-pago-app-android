@@ -152,7 +152,14 @@ fun PayItemDetailsScreen(
                     title = "Tá Pago",
                     variant = ButtonVariant.DEFAULT,
                     disabled = false,
-                    onClick = {},
+                    onClick = {
+                        if (expense != null) {
+                            viewModel.onEvent(ExpensesEvent.PayExpenseById(expense.id))
+                            isDeleteDialogOpen = false
+                            onNavigateBack()
+                            showSnackbar("Parabéns! Gasto pago com sucesso!")
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
             }

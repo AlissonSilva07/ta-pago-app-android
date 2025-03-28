@@ -3,10 +3,11 @@ package br.alisson.edu.tapago.data.remote.api
 import br.alisson.edu.tapago.data.remote.dto.expenses.DeleteExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.GetExpensesResponse
-import br.alisson.edu.tapago.data.remote.dto.user.UserResponse
+import br.alisson.edu.tapago.data.remote.dto.expenses.PayExpenseResponse
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -29,4 +30,9 @@ interface ExpensesApi {
     suspend fun deleteExpenseById(
         @Path("id") id: String
     ): Response<DeleteExpenseResponse>
+
+    @PUT("expenses/{id}/pay")
+    suspend fun payExpenseById(
+        @Path("id") id: String
+    ): Response<PayExpenseResponse>
 }

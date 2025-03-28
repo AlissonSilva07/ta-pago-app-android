@@ -15,6 +15,7 @@ sealed class BottomNavItem(val route: String, val icon: ImageVector) {
 object PayRoutes {
     const val Pay = "pay"
     const val PayItemDetails = "pay/{itemId}"
+    const val PayCreate = "pay/create"
 
     fun getPayItemDetailsRoute(itemId: String): String {
         return "pay/$itemId"

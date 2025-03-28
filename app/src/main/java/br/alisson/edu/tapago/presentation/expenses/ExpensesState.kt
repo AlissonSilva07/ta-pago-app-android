@@ -11,5 +11,6 @@ data class ExpensesState (
     val sortBy: String? = null,
     val sortOrder: String? = null,
     val isLoading: Boolean = false,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val successMessage: String? = null
 )

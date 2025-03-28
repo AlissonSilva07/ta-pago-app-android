@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.alisson.edu.tapago.data.remote.dto.expenses.DeleteExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.GetExpensesResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.toDomainModel
@@ -31,6 +32,9 @@ class ExpensesViewModel @Inject constructor(
     private val _expenseByIdResponse = MutableStateFlow<NetworkResult<ExpenseResponse>>(NetworkResult.Idle)
     val expenseByIdResponse = _expenseByIdResponse.asStateFlow()
 
+    private val _deleteExpensesByIdResponse = MutableStateFlow<NetworkResult<DeleteExpenseResponse>>(NetworkResult.Idle)
+    val deleteExpensesByIdResponse = _deleteExpensesByIdResponse.asStateFlow()
+
     fun onEvent(event: ExpensesEvent) {
         when (event) {
             is ExpensesEvent.GetExpenses -> getExpenses(resetPage = true)
@@ -42,8 +46,8 @@ class ExpensesViewModel @Inject constructor(
                 _state.value = _state.value.copy(sortBy = event.sortBy, sortOrder = event.sortOrder)
                 getExpenses(resetPage = true)
             }
-
             is ExpensesEvent.GetExpenseById -> getExpenseById(event.id)
+            is ExpensesEvent.DeleteExpenseById -> deleteExpenseById(event.id)
         }
     }
 
@@ -93,7 +97,6 @@ class ExpensesViewModel @Inject constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun getExpenseById(id: String) {
         if (_state.value.isLoading) return
 
@@ -115,6 +118,43 @@ class ExpensesViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.value = _state.value.copy(
                             errorMessage = "Erro ao carregar o gasto.",
+                            isLoading = false
+                        )
+                    }
+
+                    else -> {
+                        _state.value = _state.value.copy(isLoading = true)
+                    }
+                }
+            } catch (e: Exception) {
+                _state.value = _state.value.copy(
+                    errorMessage = e.message,
+                    isLoading = false
+                )
+            }
+        }
+    }
+
+    private fun deleteExpenseById(id: String) {
+        if (_state.value.isLoading) return
+
+        _state.value = _state.value.copy(isLoading = true)
+
+        viewModelScope.launch {
+            try {
+                val response = expensesRepository.deleteExpensesById(id)
+
+                _deleteExpensesByIdResponse.value = response
+                when (response) {
+                    is NetworkResult.Success -> {
+                        _state.value = _state.value.copy(
+                            successMessage = response.data.message,
+                            isLoading = false
+                        )
+                    }
+                    is NetworkResult.Error -> {
+                        _state.value = _state.value.copy(
+                            errorMessage = response.msg,
                             isLoading = false
                         )
                     }

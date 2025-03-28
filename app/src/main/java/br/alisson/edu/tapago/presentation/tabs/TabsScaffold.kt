@@ -124,7 +124,10 @@ fun TabsScaffold() {
                 val itemId = backStackEntry.arguments?.getString("itemId")
                 PayItemDetailsScreen(
                     modifier = Modifier.padding(padding),
-                    itemId = itemId
+                    itemId = itemId,
+                    onNavigateBack = {
+                        tabNavController.popBackStack()
+                    }
                 )
             }
 

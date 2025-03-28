@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -17,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,6 +33,8 @@ import br.alisson.edu.tapago.presentation.tabs.home.HomeScreen
 import br.alisson.edu.tapago.presentation.tabs.menu.MenuScreen
 import br.alisson.edu.tapago.presentation.tabs.pay.PayItemDetailsScreen
 import br.alisson.edu.tapago.presentation.tabs.pay.PayScreen
+import com.composables.icons.lucide.ChevronLeft
+import com.composables.icons.lucide.Lucide
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,6 +81,17 @@ fun TabsScaffold() {
                         scrolledContainerColor = MaterialTheme.colorScheme.onSurface,
                         actionIconContentColor = MaterialTheme.colorScheme.onSurface,
                     ),
+                    navigationIcon = {
+                        if (currentRoute == PayRoutes.PayItemDetails) {
+                            IconButton(onClick = { tabNavController.popBackStack() }) {
+                                Icon(
+                                    imageVector = Lucide.ChevronLeft,
+                                    tint = MaterialTheme.colorScheme.onSurface,
+                                    contentDescription = "Back"
+                                )
+                            }
+                        }
+                    }
                 )
             }
         }

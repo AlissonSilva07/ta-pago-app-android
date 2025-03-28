@@ -11,15 +11,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,6 +39,7 @@ import br.alisson.edu.tapago.presentation.tabs.pay.PayItemDetailsScreen
 import br.alisson.edu.tapago.presentation.tabs.pay.PayScreen
 import com.composables.icons.lucide.ChevronLeft
 import com.composables.icons.lucide.Lucide
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,8 +57,21 @@ fun TabsScaffold() {
         else -> ""
     }
 
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState){ data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.surface,
+                    actionColor = MaterialTheme.colorScheme.surface
+                )
+            }
+        },
         bottomBar = {
             BottomNavBar(tabNavController)
         },
@@ -127,6 +145,11 @@ fun TabsScaffold() {
                     itemId = itemId,
                     onNavigateBack = {
                         tabNavController.popBackStack()
+                    },
+                    showSnackbar = { message ->
+                        scope.launch {
+                            snackbarHostState.showSnackbar(message)
+                        }
                     }
                 )
             }

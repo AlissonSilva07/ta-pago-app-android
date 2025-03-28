@@ -57,6 +57,7 @@ fun PayItemDetailsScreen(
     modifier: Modifier = Modifier,
     itemId: String?,
     onNavigateBack: () -> Unit,
+    showSnackbar: (String) -> Unit,
     viewModel: ExpensesViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
@@ -101,7 +102,8 @@ fun PayItemDetailsScreen(
                             Icon(
                                 imageVector = Lucide.HousePlug,
                                 contentDescription = "Icon",
-                                tint = MaterialTheme.colorScheme.surface
+                                tint = MaterialTheme.colorScheme.surface,
+                                modifier = Modifier.size(32.dp)
                             )
                         }
                     }
@@ -211,6 +213,7 @@ fun PayItemDetailsScreen(
                                     viewModel.onEvent(ExpensesEvent.DeleteExpenseById(expense.id))
                                     isDeleteDialogOpen = false
                                     onNavigateBack()
+                                    showSnackbar("Gasto excluído com sucesso!")
                                 }
                             },
                         ) {

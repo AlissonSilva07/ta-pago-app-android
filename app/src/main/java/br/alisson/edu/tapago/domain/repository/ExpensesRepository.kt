@@ -4,7 +4,9 @@ import br.alisson.edu.tapago.data.remote.dto.expenses.DeleteExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.GetExpensesResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.PayExpenseResponse
-import br.alisson.edu.tapago.utils.NetworkResult
+import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseRequest
+import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseResponse
+import br.alisson.edu.tapago.core.utils.NetworkResult
 
 interface ExpensesRepository {
     suspend fun getExpenses(
@@ -18,6 +20,10 @@ interface ExpensesRepository {
     suspend fun getExpensesById(
         id: String
     ): NetworkResult<ExpenseResponse>
+
+    suspend fun saveExpense(
+        expense: PostExpenseRequest
+    ): NetworkResult<PostExpenseResponse>
 
     suspend fun deleteExpensesById(
         id: String

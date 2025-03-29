@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import br.alisson.edu.tapago.domain.model.Expense
-import br.alisson.edu.tapago.utils.formatDateAdapter
+import br.alisson.edu.tapago.core.utils.formatDateAdapter
 import com.composables.icons.lucide.HousePlug
 import com.composables.icons.lucide.Lucide
 import java.time.Instant

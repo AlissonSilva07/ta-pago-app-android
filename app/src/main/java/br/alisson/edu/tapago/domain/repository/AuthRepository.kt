@@ -4,7 +4,7 @@ import br.alisson.edu.tapago.data.remote.dto.auth.LoginRequest
 import br.alisson.edu.tapago.data.remote.dto.auth.LoginResponse
 import br.alisson.edu.tapago.data.remote.dto.auth.SignUpRequest
 import br.alisson.edu.tapago.data.remote.dto.auth.SignUpResponse
-import br.alisson.edu.tapago.utils.NetworkResult
+import br.alisson.edu.tapago.core.utils.NetworkResult
 
 interface AuthRepository {
     suspend fun logIn(request: LoginRequest): NetworkResult<LoginResponse>

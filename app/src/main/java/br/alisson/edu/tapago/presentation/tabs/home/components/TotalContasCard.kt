@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import br.alisson.edu.tapago.R
 import br.alisson.edu.tapago.domain.model.TotalExpense
 import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
-import br.alisson.edu.tapago.utils.getMonthInPortuguese
+import br.alisson.edu.tapago.core.utils.getMonthInPortuguese
 import com.composables.icons.lucide.ChevronDown
 import com.composables.icons.lucide.ChevronUp
 import com.composables.icons.lucide.Lucide

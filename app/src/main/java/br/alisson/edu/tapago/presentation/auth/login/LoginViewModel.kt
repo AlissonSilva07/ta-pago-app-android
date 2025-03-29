@@ -6,8 +6,8 @@ import br.alisson.edu.tapago.data.remote.dto.auth.LoginRequest
 import br.alisson.edu.tapago.data.remote.dto.auth.LoginResponse
 import br.alisson.edu.tapago.data.utils.TokenManager
 import br.alisson.edu.tapago.domain.repository.AuthRepository
-import br.alisson.edu.tapago.utils.AuthValidator
-import br.alisson.edu.tapago.utils.NetworkResult
+import br.alisson.edu.tapago.core.utils.AuthValidator
+import br.alisson.edu.tapago.core.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

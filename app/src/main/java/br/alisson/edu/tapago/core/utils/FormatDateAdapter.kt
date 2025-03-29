@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.utils
+package br.alisson.edu.tapago.core.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi

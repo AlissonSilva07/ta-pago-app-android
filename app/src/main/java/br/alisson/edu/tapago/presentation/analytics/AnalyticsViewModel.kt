@@ -11,7 +11,7 @@ import br.alisson.edu.tapago.data.remote.dto.analytics.toDomainModel
 import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.toDomainModel
 import br.alisson.edu.tapago.data.remote.repository.AnalyticsRepositoryImpl
-import br.alisson.edu.tapago.utils.NetworkResult
+import br.alisson.edu.tapago.core.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,13 +27,16 @@ class AnalyticsViewModel @Inject constructor(
     private val _state = MutableStateFlow(AnalyticsState())
     val state = _state.asStateFlow()
 
-    private val _summaryExpensesResponse = MutableStateFlow<NetworkResult<List<ExpenseResponse>>>(NetworkResult.Idle)
+    private val _summaryExpensesResponse = MutableStateFlow<NetworkResult<List<ExpenseResponse>>>(
+        NetworkResult.Idle)
     val summaryExpensesResponse = _summaryExpensesResponse.asStateFlow()
 
-    private val _totalExpensesResponse = MutableStateFlow<NetworkResult<List<TotalExpenseResponse>>>(NetworkResult.Idle)
+    private val _totalExpensesResponse = MutableStateFlow<NetworkResult<List<TotalExpenseResponse>>>(
+        NetworkResult.Idle)
     val totalExpensesResponse = _totalExpensesResponse.asStateFlow()
 
-    private val _monthlyExpenseResponse = MutableStateFlow<NetworkResult<MonthlyExpenseProgressResponse>>(NetworkResult.Idle)
+    private val _monthlyExpenseResponse = MutableStateFlow<NetworkResult<MonthlyExpenseProgressResponse>>(
+        NetworkResult.Idle)
     val monthlyExpenseResponse = _monthlyExpenseResponse.asStateFlow()
 
     fun onEvent(event: AnalyticsEvent) {

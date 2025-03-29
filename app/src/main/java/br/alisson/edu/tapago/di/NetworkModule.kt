@@ -5,7 +5,7 @@ import br.alisson.edu.tapago.data.remote.api.AuthApi
 import br.alisson.edu.tapago.data.remote.api.ExpensesApi
 import br.alisson.edu.tapago.data.remote.api.UserApi
 import br.alisson.edu.tapago.data.utils.AuthInterceptor
-import br.alisson.edu.tapago.utils.Constants.BASE_URL
+import br.alisson.edu.tapago.core.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

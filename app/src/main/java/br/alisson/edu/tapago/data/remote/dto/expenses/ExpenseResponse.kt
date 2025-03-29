@@ -3,7 +3,7 @@ package br.alisson.edu.tapago.data.remote.dto.expenses
 import android.os.Build
 import androidx.annotation.RequiresApi
 import br.alisson.edu.tapago.domain.model.Expense
-import br.alisson.edu.tapago.utils.formatDateAdapter
+import br.alisson.edu.tapago.core.utils.formatDateAdapter
 
 data class ExpenseResponse(
     val id: String,

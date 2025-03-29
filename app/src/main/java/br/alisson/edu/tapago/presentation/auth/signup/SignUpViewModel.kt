@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import br.alisson.edu.tapago.data.remote.dto.auth.SignUpRequest
 import br.alisson.edu.tapago.data.remote.dto.auth.SignUpResponse
 import br.alisson.edu.tapago.domain.repository.AuthRepository
-import br.alisson.edu.tapago.utils.AuthValidator
-import br.alisson.edu.tapago.utils.NetworkResult
+import br.alisson.edu.tapago.core.utils.AuthValidator
+import br.alisson.edu.tapago.core.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

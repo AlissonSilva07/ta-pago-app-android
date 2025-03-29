@@ -38,6 +38,7 @@ fun CustomTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     type: TextFieldType = TextFieldType.DEFAULT,
+    keyboardOptions: KeyboardOptions? = KeyboardOptions.Default,
     keyboardType: KeyboardType? = KeyboardType.Text,
     error: String? = null
 ) {

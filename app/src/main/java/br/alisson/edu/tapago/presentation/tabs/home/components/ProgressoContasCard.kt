@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import br.alisson.edu.tapago.domain.model.MonthlyExpenseProgress
-import br.alisson.edu.tapago.utils.calculatePercentage
+import br.alisson.edu.tapago.core.utils.calculatePercentage
 import com.composables.icons.lucide.Goal
 import com.composables.icons.lucide.Lucide
 

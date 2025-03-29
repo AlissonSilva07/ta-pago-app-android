@@ -44,7 +44,7 @@ import br.alisson.edu.tapago.core.components.CustomButton
 import br.alisson.edu.tapago.core.components.CustomTextField
 import br.alisson.edu.tapago.core.components.PhotoSelectorView
 import br.alisson.edu.tapago.core.components.TextFieldType
-import br.alisson.edu.tapago.utils.NetworkResult
+import br.alisson.edu.tapago.core.utils.NetworkResult
 import com.composables.icons.lucide.ChevronLeft
 import com.composables.icons.lucide.Lucide
 import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme

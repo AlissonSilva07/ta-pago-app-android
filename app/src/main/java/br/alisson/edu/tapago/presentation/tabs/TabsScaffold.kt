@@ -154,7 +154,12 @@ fun TabsScaffold() {
                 PayCreateScreen(
                     modifier = Modifier.padding(padding),
                     onNavigateBack = {
-                        tabNavController.popBackStack()
+                        tabNavController.navigate(PayRoutes.Pay)
+                    },
+                    showSnackbar = { message ->
+                        scope.launch {
+                            snackbarHostState.showSnackbar(message)
+                        }
                     }
                 )
             }

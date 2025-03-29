@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.alisson.edu.tapago.core.components.*
-import br.alisson.edu.tapago.utils.NetworkResult
+import br.alisson.edu.tapago.core.utils.NetworkResult
 import com.composables.icons.lucide.*
 import br.alisson.edu.tapago.presentation.ui.theme.TaPagoTheme
 

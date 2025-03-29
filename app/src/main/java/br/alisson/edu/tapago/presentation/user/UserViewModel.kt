@@ -6,11 +6,10 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.alisson.edu.tapago.data.remote.dto.user.UserResponse
-import br.alisson.edu.tapago.data.remote.dto.expenses.toDomainModel
 import br.alisson.edu.tapago.data.remote.dto.user.toDomainModel
 import br.alisson.edu.tapago.data.remote.repository.UserRepositoryImpl
 import br.alisson.edu.tapago.data.utils.UserManager
-import br.alisson.edu.tapago.utils.NetworkResult
+import br.alisson.edu.tapago.core.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

@@ -5,11 +5,7 @@ import br.alisson.edu.tapago.data.remote.api.UserApi
 import br.alisson.edu.tapago.data.remote.dto.user.UserResponse
 import br.alisson.edu.tapago.data.utils.UserManager
 import br.alisson.edu.tapago.domain.repository.UserRepository
-import br.alisson.edu.tapago.utils.NetworkResult
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onStart
+import br.alisson.edu.tapago.core.utils.NetworkResult
 import javax.inject.Inject
 
 private const val errorMsg = "Algo deu errado."

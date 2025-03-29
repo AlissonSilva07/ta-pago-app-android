@@ -4,7 +4,7 @@ import android.os.Build
 import android.util.Base64
 import androidx.annotation.RequiresApi
 import br.alisson.edu.tapago.domain.model.User
-import br.alisson.edu.tapago.utils.formatDateAdapter
+import br.alisson.edu.tapago.core.utils.formatDateAdapter
 
 data class UserResponse(
     val createdAt: String,

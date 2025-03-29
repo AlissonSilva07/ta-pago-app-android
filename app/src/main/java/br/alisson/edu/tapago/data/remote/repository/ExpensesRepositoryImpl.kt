@@ -6,8 +6,10 @@ import br.alisson.edu.tapago.data.remote.dto.expenses.DeleteExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.GetExpensesResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.PayExpenseResponse
+import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseRequest
+import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseResponse
 import br.alisson.edu.tapago.domain.repository.ExpensesRepository
-import br.alisson.edu.tapago.utils.NetworkResult
+import br.alisson.edu.tapago.core.utils.NetworkResult
 import javax.inject.Inject
 
 private const val errorMsg = "Algo deu errado."
@@ -43,6 +45,24 @@ class ExpensesRepositoryImpl @Inject constructor(
     override suspend fun getExpensesById(id: String): NetworkResult<ExpenseResponse> {
         return try {
             val response = expensesApi.getExpenseById(id)
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!)
+            } else if (response.errorBody() != null) {
+                val errorMsg = response.errorBody()!!.charStream().readText()
+                NetworkResult.Error(errorMsg)
+            } else {
+                NetworkResult.Error(errorMsg)
+            }
+        } catch (e: Exception) {
+            Log.e("AnalyticsRepository", "Exception: ${e.message}")
+            NetworkResult.Error(e.message ?: errorMsg)
+        }
+    }
+
+    override suspend fun saveExpense(expense: PostExpenseRequest): NetworkResult<PostExpenseResponse> {
+        return try {
+            val response = expensesApi.saveExpense(expense)
 
             if (response.isSuccessful && response.body() != null) {
                 NetworkResult.Success(response.body()!!)

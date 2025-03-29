@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerColors
@@ -35,6 +36,7 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,12 +46,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.alisson.edu.tapago.core.components.ButtonVariant
 import br.alisson.edu.tapago.core.components.CustomButton
 import br.alisson.edu.tapago.core.components.CustomTextField
 import br.alisson.edu.tapago.core.components.TextFieldType
-import br.alisson.edu.tapago.utils.Constants.categories
-import br.alisson.edu.tapago.utils.formatDateAdapter
+import br.alisson.edu.tapago.core.utils.Constants.categories
+import br.alisson.edu.tapago.core.utils.formatDateAdapter
+import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseRequest
+import br.alisson.edu.tapago.presentation.expenses.ExpensesEvent
+import br.alisson.edu.tapago.presentation.expenses.ExpensesViewModel
 import com.composables.icons.lucide.ChevronRight
 import com.composables.icons.lucide.Lucide
 import java.time.Instant
@@ -67,10 +73,14 @@ data class CategoryType(
 @Composable
 fun PayCreateScreen(
     modifier: Modifier = Modifier,
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
+    showSnackbar: (String) -> Unit,
+    viewModel: ExpensesViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state.collectAsState()
+
     var customCategoryLabel by remember {
-        mutableStateOf(categories.first().label)
+        mutableStateOf("Selecione uma categoria")
     }
     var isOpenCategoryModal by remember {
         mutableStateOf(false)
@@ -83,11 +93,7 @@ fun PayCreateScreen(
     }
     val today = Calendar.getInstance().timeInMillis
     var dateLabel by remember {
-        mutableStateOf(
-            Instant.ofEpochMilli(today)
-                .atOffset(ZoneOffset.UTC)
-                .format(DateTimeFormatter.ISO_INSTANT)
-        )
+        mutableStateOf("Selecione uma data")
     }
     val datePickerState = rememberDatePickerState(
         selectableDates = object : SelectableDates {
@@ -96,6 +102,16 @@ fun PayCreateScreen(
             }
         }
     )
+
+    fun submit(expense: PostExpenseRequest) {
+        viewModel.onEvent(ExpensesEvent.SaveExpense(expense))
+    }
+
+    fun reset() {
+        viewModel.onEvent(ExpensesEvent.ResetForm)
+        customCategoryLabel = "Selecione uma categoria"
+        dateLabel = "Selecione uma data"
+    }
 
     LazyColumn(
         modifier = modifier
@@ -114,21 +130,29 @@ fun PayCreateScreen(
                 CustomTextField(
                     label = "Nome:",
                     type = TextFieldType.DEFAULT,
-                    value = "",
-                    onValueChange = {},
+                    value = state.value.formExpense?.title ?: "",
+                    onValueChange = { viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(title = it)!!))},
                 )
                 CustomTextField(
                     label = "Valor:",
                     type = TextFieldType.DEFAULT,
-                    value = "",
+                    value = state.value.formExpense?.amount.toString(),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                     keyboardType = KeyboardType.Number,
-                    onValueChange = {},
+                    onValueChange = { newValue ->
+                        val newAmount = newValue.toIntOrNull()
+                        newAmount?.let {
+                            viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(amount = it)!!))
+                        } ?: run {
+                            viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(amount = 0)!!))
+                        }
+                    },
                 )
                 CustomTextField(
                     label = "Descrição:",
                     type = TextFieldType.DEFAULT,
-                    value = "",
-                    onValueChange = {},
+                    value = state.value.formExpense?.description ?: "",
+                    onValueChange = { viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(description = it)!!)) },
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -173,7 +197,7 @@ fun PayCreateScreen(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     OutlinedTextField(
-                        value = formatDateAdapter(dateLabel),
+                        value = dateLabel,
                         onValueChange = {},
                         shape = RoundedCornerShape(16.dp),
                         colors = OutlinedTextFieldDefaults.colors(
@@ -209,14 +233,18 @@ fun PayCreateScreen(
                     variant = ButtonVariant.DEFAULT,
                     disabled = false,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {}
+                    onClick = {
+                        submit(state.value.formExpense!!)
+                        onNavigateBack()
+                        showSnackbar("Gasto registrado com sucesso!")
+                    }
                 )
                 CustomButton(
                     title = "Limpar",
                     variant = ButtonVariant.MUTED,
                     disabled = false,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {}
+                    onClick = { reset() }
                 )
             }
         }
@@ -260,6 +288,7 @@ fun PayCreateScreen(
                             disabled = false,
                             onClick = {
                                 customCategoryLabel = category.label
+                                viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(category = customCategoryLabel)!!))
                                 isOpenCategoryModal = false
                             }
                         )
@@ -449,9 +478,11 @@ fun PayCreateScreen(
 
             LaunchedEffect(datePickerState.selectedDateMillis) {
                 datePickerState.selectedDateMillis?.let { millis ->
-                    dateLabel = Instant.ofEpochMilli(millis)
+                    val extractedISODate = Instant.ofEpochMilli(millis)
                         .atOffset(ZoneOffset.UTC)
                         .format(DateTimeFormatter.ISO_INSTANT)
+                    dateLabel = formatDateAdapter(extractedISODate)
+                    viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(dueDate = extractedISODate)!!))
                 }
             }
         }

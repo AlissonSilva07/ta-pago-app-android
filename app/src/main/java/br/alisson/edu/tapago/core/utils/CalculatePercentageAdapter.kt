@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.utils
+package br.alisson.edu.tapago.core.utils
 
 fun calculatePercentage(current: Int, total: Int): Int {
     return if (total > 0) {

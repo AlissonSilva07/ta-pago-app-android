@@ -1,4 +1,4 @@
-package br.alisson.edu.tapago.utils
+package br.alisson.edu.tapago.core.utils
 
 import android.util.Patterns
 import br.alisson.edu.tapago.presentation.auth.login.LoginState

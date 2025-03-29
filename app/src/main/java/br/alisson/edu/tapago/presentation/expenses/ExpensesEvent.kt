@@ -4,6 +4,7 @@ import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseRequest
 
 sealed class ExpensesEvent {
     data object GetExpenses : ExpensesEvent()
+    data object RefreshExpenses : ExpensesEvent()
     data class SaveExpense(val expense: PostExpenseRequest) : ExpensesEvent()
     data class GetExpenseById(val id: String) : ExpensesEvent()
     data class DeleteExpenseById(val id: String) : ExpensesEvent()

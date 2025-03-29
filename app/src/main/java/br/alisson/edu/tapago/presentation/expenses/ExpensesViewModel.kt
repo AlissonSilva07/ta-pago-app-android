@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.alisson.edu.tapago.core.utils.NetworkResult
 import br.alisson.edu.tapago.data.remote.dto.expenses.DeleteExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.GetExpensesResponse
@@ -12,7 +13,6 @@ import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseRequest
 import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.toDomainModel
 import br.alisson.edu.tapago.domain.repository.ExpensesRepository
-import br.alisson.edu.tapago.core.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -58,21 +58,20 @@ class ExpensesViewModel @Inject constructor(
 
     fun onEvent(event: ExpensesEvent) {
         when (event) {
-            is ExpensesEvent.GetExpenses -> getExpenses(resetPage = true)
+            is ExpensesEvent.GetExpenses -> getExpenses(resetPage = true, isRefresh = false)
+            is ExpensesEvent.RefreshExpenses -> getExpenses(resetPage = true, isRefresh = true)
             is ExpensesEvent.UpdateSearch -> {
                 _state.value = _state.value.copy(search = event.search)
-                getExpenses(resetPage = true)
+                getExpenses(resetPage = true, isRefresh = false)
             }
-
             is ExpensesEvent.UpdateSort -> {
                 _state.value = _state.value.copy(sortBy = event.sortBy, sortOrder = event.sortOrder)
-                getExpenses(resetPage = true)
+                getExpenses(resetPage = true, isRefresh = false)
             }
-
             is ExpensesEvent.GetExpenseById -> getExpenseById(event.id)
             is ExpensesEvent.DeleteExpenseById -> deleteExpenseById(event.id)
             is ExpensesEvent.PayExpenseById -> payExpenseById(event.id)
-            is ExpensesEvent.SaveExpense -> saveExpenseResponse(event.expense)
+            is ExpensesEvent.SaveExpense -> saveExpense(event.expense)
             is ExpensesEvent.UpdateForm -> _state.update { it.copy(formExpense = event.expense) }
             is ExpensesEvent.ResetForm -> _state.update {
                 it.copy(
@@ -89,10 +88,13 @@ class ExpensesViewModel @Inject constructor(
         }
     }
 
-    private fun getExpenses(resetPage: Boolean) {
-        if (_state.value.isLoading) return
+    private fun getExpenses(resetPage: Boolean, isRefresh: Boolean) {
+        if (_state.value.isLoading && !isRefresh) return
 
-        _state.value = _state.value.copy(isLoading = true)
+        _state.value = _state.value.copy(
+            isLoading = !isRefresh,
+            isRefreshing = isRefresh
+        )
 
         viewModelScope.launch {
             try {
@@ -112,31 +114,34 @@ class ExpensesViewModel @Inject constructor(
                         _state.value = _state.value.copy(
                             expenses = if (resetPage) newExpenses else _state.value.expenses + newExpenses,
                             page = currentPage + 1,
-                            isLoading = false
+                            isLoading = false,
+                            isRefreshing = false
                         )
                     }
 
                     is NetworkResult.Error -> {
                         _state.value = _state.value.copy(
                             errorMessage = "Erro ao carregar os gastos.",
-                            isLoading = false
+                            isLoading = false,
+                            isRefreshing = false
                         )
                     }
 
                     else -> {
-                        _state.value = _state.value.copy(isLoading = true)
+                        _state.value = _state.value.copy(isLoading = true, isRefreshing = false)
                     }
                 }
             } catch (e: Exception) {
                 _state.value = _state.value.copy(
                     errorMessage = e.message,
-                    isLoading = false
+                    isLoading = false,
+                    isRefreshing = false
                 )
             }
         }
     }
 
-    private fun saveExpenseResponse(expense: PostExpenseRequest) {
+    private fun saveExpense(expense: PostExpenseRequest) {
         if (_state.value.isLoading) return
 
         _state.value = _state.value.copy(isLoading = true)

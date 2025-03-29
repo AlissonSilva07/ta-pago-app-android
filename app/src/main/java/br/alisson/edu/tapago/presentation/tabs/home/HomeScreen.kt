@@ -2,6 +2,7 @@ package br.alisson.edu.tapago.presentation.tabs.home
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,7 +24,6 @@ import br.alisson.edu.tapago.presentation.tabs.home.components.HomeHeader
 import br.alisson.edu.tapago.presentation.tabs.home.components.ProgressoContasCard
 import br.alisson.edu.tapago.presentation.tabs.home.components.ResumoContasCard
 import br.alisson.edu.tapago.presentation.tabs.home.components.TotalContasCard
-import br.alisson.edu.tapago.presentation.user.UserEvent
 import br.alisson.edu.tapago.presentation.user.UserViewModel
 import com.composables.icons.lucide.CopyPlus
 import com.composables.icons.lucide.DollarSign
@@ -33,6 +33,8 @@ import com.composables.icons.lucide.Lucide
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    onNavigateToPay: () -> Unit = {},
+    onNavigateToCreate: () -> Unit = {},
     userViewModel: UserViewModel = hiltViewModel(),
     analyticsViewModel: AnalyticsViewModel = hiltViewModel()
 ) {
@@ -81,12 +83,16 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     AcessoRapidoCard(
-                        modifier = Modifier.weight(0.5f),
+                        modifier = Modifier
+                            .weight(0.5f)
+                            .clickable { onNavigateToPay() },
                         icon = Lucide.DollarSign,
                         title = "Pagar"
                     )
                     AcessoRapidoCard(
-                        modifier = Modifier.weight(0.5f),
+                        modifier = Modifier
+                            .weight(0.5f)
+                            .clickable { onNavigateToCreate() },
                         icon = Lucide.CopyPlus,
                         title = "Adicionar"
                     )

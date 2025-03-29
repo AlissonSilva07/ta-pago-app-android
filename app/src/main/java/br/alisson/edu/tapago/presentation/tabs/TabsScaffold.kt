@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,6 +37,7 @@ import br.alisson.edu.tapago.presentation.tabs.components.BottomNavItem
 import br.alisson.edu.tapago.presentation.tabs.components.PayRoutes
 import br.alisson.edu.tapago.presentation.tabs.home.HomeScreen
 import br.alisson.edu.tapago.presentation.tabs.menu.MenuScreen
+import br.alisson.edu.tapago.presentation.tabs.pay.PayCreateScreen
 import br.alisson.edu.tapago.presentation.tabs.pay.PayItemDetailsScreen
 import br.alisson.edu.tapago.presentation.tabs.pay.PayScreen
 import com.composables.icons.lucide.ChevronLeft
@@ -52,6 +55,7 @@ fun TabsScaffold() {
     val title = when (currentRoute) {
         BottomNavItem.Home.route -> "Home"
         PayRoutes.Pay -> "Gastos"
+        PayRoutes.PayCreate -> "Novo Gasto"
         PayRoutes.PayItemDetails -> "Detalhes do Gasto"
         BottomNavItem.Menu.route -> "Menu"
         else -> ""
@@ -80,7 +84,9 @@ fun TabsScaffold() {
                 TopAppBar(
                     title = {
                         Box(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 32.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
@@ -100,7 +106,7 @@ fun TabsScaffold() {
                         actionIconContentColor = MaterialTheme.colorScheme.onSurface,
                     ),
                     navigationIcon = {
-                        if (currentRoute == PayRoutes.PayItemDetails) {
+                        if (currentRoute == PayRoutes.PayItemDetails || currentRoute == PayRoutes.PayCreate) {
                             IconButton(onClick = { tabNavController.popBackStack() }) {
                                 Icon(
                                     imageVector = Lucide.ChevronLeft,
@@ -122,7 +128,13 @@ fun TabsScaffold() {
                 HomeScreen(
                     modifier = Modifier
                         .padding(padding)
-                        .fillMaxSize()
+                        .fillMaxSize(),
+                    onNavigateToPay = {
+                        tabNavController.navigate(PayRoutes.Pay)
+                    },
+                    onNavigateToCreate = {
+                        tabNavController.navigate(PayRoutes.PayCreate)
+                    }
                 )
             }
 
@@ -131,6 +143,18 @@ fun TabsScaffold() {
                     modifier = Modifier.padding(padding),
                     onNavigateToDetails = { itemId ->
                         tabNavController.navigate(PayRoutes.getPayItemDetailsRoute(itemId))
+                    },
+                    onNavigateToCreate = {
+                        tabNavController.navigate(PayRoutes.PayCreate)
+                    }
+                )
+            }
+
+            composable(PayRoutes.PayCreate) {
+                PayCreateScreen(
+                    modifier = Modifier.padding(padding),
+                    onNavigateBack = {
+                        tabNavController.popBackStack()
                     }
                 )
             }

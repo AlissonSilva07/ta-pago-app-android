@@ -18,7 +18,8 @@ import com.composables.icons.lucide.Search
 fun CustomSearchBar(
     value: String,
     onValueChange: (String) -> Unit,
-    placeholder: String = "Pesquise por Gasto"
+    placeholder: String = "Pesquise por Gasto",
+    modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
         value = value,
@@ -48,6 +49,6 @@ fun CustomSearchBar(
         },
         textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
         singleLine = true,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
     )
 }

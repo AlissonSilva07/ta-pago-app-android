@@ -6,7 +6,7 @@ import br.alisson.edu.tapago.data.remote.dto.analytics.MonthlyExpenseProgressRes
 import br.alisson.edu.tapago.data.remote.dto.analytics.TotalExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.ExpenseResponse
 import br.alisson.edu.tapago.domain.repository.AnalyticsRepository
-import br.alisson.edu.tapago.core.utils.NetworkResult
+import br.alisson.edu.tapago.data.utils.NetworkResult
 import javax.inject.Inject
 
 private const val errorMsg = "Algo deu errado."

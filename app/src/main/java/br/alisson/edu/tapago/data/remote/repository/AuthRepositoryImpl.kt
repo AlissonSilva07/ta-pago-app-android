@@ -8,7 +8,7 @@ import br.alisson.edu.tapago.data.remote.dto.auth.SignUpRequest
 import br.alisson.edu.tapago.data.remote.dto.auth.SignUpResponse
 import br.alisson.edu.tapago.data.utils.TokenManager
 import br.alisson.edu.tapago.domain.repository.AuthRepository
-import br.alisson.edu.tapago.core.utils.NetworkResult
+import br.alisson.edu.tapago.data.utils.NetworkResult
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody

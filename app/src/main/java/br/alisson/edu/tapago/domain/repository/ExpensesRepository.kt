@@ -6,7 +6,7 @@ import br.alisson.edu.tapago.data.remote.dto.expenses.GetExpensesResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.PayExpenseResponse
 import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseRequest
 import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseResponse
-import br.alisson.edu.tapago.core.utils.NetworkResult
+import br.alisson.edu.tapago.data.utils.NetworkResult
 
 interface ExpensesRepository {
     suspend fun getExpenses(

@@ -8,12 +8,11 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.alisson.edu.tapago.presentation.auth.login.LoginScreen
-import br.alisson.edu.tapago.presentation.auth.login.LoginViewModel
-import br.alisson.edu.tapago.presentation.auth.signup.SignupScreen
-import br.alisson.edu.tapago.presentation.splash.SplashScreen
-import br.alisson.edu.tapago.presentation.tabs.TabsScaffold
-import br.alisson.edu.tapago.presentation.welcome.WelcomeScreen
+import br.alisson.edu.tapago.presentation.ui.login.LoginScreen
+import br.alisson.edu.tapago.presentation.ui.login.LoginViewModel
+import br.alisson.edu.tapago.presentation.ui.signup.SignupScreen
+import br.alisson.edu.tapago.presentation.ui.splash.SplashScreen
+import br.alisson.edu.tapago.presentation.ui.welcome.WelcomeScreen
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable

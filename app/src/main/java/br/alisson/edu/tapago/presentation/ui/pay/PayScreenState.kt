@@ -10,6 +10,7 @@ data class PayScreenState(
     val sortBy: String? = null,
     val sortOrder: String? = null,
     val isLoading: Boolean = false,
+    val isSearching: Boolean = false,
     val isRefreshing: Boolean = false,
     val errorMessage: String? = null,
     val successMessage: String? = null

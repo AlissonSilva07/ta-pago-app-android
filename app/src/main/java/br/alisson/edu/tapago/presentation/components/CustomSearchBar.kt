@@ -1,6 +1,8 @@
 package br.alisson.edu.tapago.presentation.components
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -19,6 +21,7 @@ fun CustomSearchBar(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String = "Pesquise por Gasto",
+    isSearching: Boolean = false
 ) {
     OutlinedTextField(
         value = value,
@@ -40,11 +43,19 @@ fun CustomSearchBar(
             )
         },
         leadingIcon = {
-            Icon(
-                imageVector = Lucide.Search,
-                contentDescription = "Toggle Password Visibility",
-                tint = MaterialTheme.colorScheme.inverseOnSurface
-            )
+            if (isSearching) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = MaterialTheme.colorScheme.inverseOnSurface,
+                    strokeWidth = 2.dp
+                )
+            } else {
+                Icon(
+                    imageVector = Lucide.Search,
+                    contentDescription = "Toggle Password Visibility",
+                    tint = MaterialTheme.colorScheme.inverseOnSurface
+                )
+            }
         },
         textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
         singleLine = true,

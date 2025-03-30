@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
@@ -44,6 +45,7 @@ fun PayScreen(
     viewModel: PayScreenViewModel = hiltViewModel()
 ) {
     val expensesState = viewModel.state.collectAsState()
+
     val expenses = expensesState.value.expenses
     val isRefreshing = expensesState.value.isRefreshing
 
@@ -63,9 +65,10 @@ fun PayScreen(
     ) {
         CustomSearchBar(
             value = expensesState.value.search ?: "",
-            onValueChange = {
-                viewModel.onEvent(PayScreenEvent.UpdateSearch(it))
+            onValueChange = { newValue ->
+                viewModel.onEvent(PayScreenEvent.UpdateSearch(newValue))
             },
+            isSearching = expensesState.value.isSearching,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.height(8.dp))
@@ -127,25 +130,42 @@ fun PayScreen(
                 }
             },
         ) {
-            if (expenses.isEmpty() || !expensesState.value.isLoading) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    items(expenses) { item ->
-                        ContaItemCard(
-                            expense = item,
-                            onNavigateToDetails = onNavigateToDetails
+            when {
+                expensesState.value.isLoading -> {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colorScheme.inverseOnSurface
                         )
                     }
                 }
-            } else {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                ) {
-                    CircularProgressIndicator(
-                        color = MaterialTheme.colorScheme.primary
-                    )
+
+                expenses.isNotEmpty() -> {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        items(expenses) { item ->
+                            ContaItemCard(
+                                expense = item,
+                                onNavigateToDetails = onNavigateToDetails
+                            )
+                        }
+                    }
+                }
+
+                else -> {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Nenhum gasto encontrado.",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.inverseOnSurface
+                        )
+                    }
                 }
             }
         }

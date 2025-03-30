@@ -2,6 +2,7 @@ package br.alisson.edu.tapago.presentation.tabs.pay.components
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
@@ -21,10 +23,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import br.alisson.edu.tapago.domain.model.Expense
 import br.alisson.edu.tapago.core.utils.formatDateAdapter
+import com.composables.icons.lucide.ArrowUpRight
 import com.composables.icons.lucide.HousePlug
 import com.composables.icons.lucide.Lucide
 import java.time.Instant
@@ -56,7 +60,8 @@ fun ContaItemCard(
             disabledContainerColor = MaterialTheme.colorScheme.inverseOnSurface,
             disabledContentColor = MaterialTheme.colorScheme.onSurface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        onClick = { onNavigateToDetails(expense.id) }
     ) {
         Row(
             modifier = Modifier
@@ -68,7 +73,7 @@ fun ContaItemCard(
             Row(
                 modifier = Modifier
                     .weight(1f),
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 Card(
@@ -119,22 +124,18 @@ fun ContaItemCard(
                         fontWeight = FontWeight.Normal
                     )
                 }
-
-                TextButton(
-                    colors = ButtonColors(
-                        contentColor = MaterialTheme.colorScheme.primary,
-                        containerColor = MaterialTheme.colorScheme.secondary,
-                        disabledContentColor = MaterialTheme.colorScheme.inverseSurface,
-                        disabledContainerColor = MaterialTheme.colorScheme.onSurface
-                    ),
+                Box(
                     modifier = Modifier
-                        .padding(0.dp),
-                    onClick = { onNavigateToDetails(expense.id) }
+                        .padding(2.dp)
+                        .clip(RoundedCornerShape(percent = 100))
+                        .background(MaterialTheme.colorScheme.inverseOnSurface),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "Abrir",
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold,
+                    Icon(
+                        imageVector = Lucide.ArrowUpRight,
+                        contentDescription = "Icon",
+                        tint = MaterialTheme.colorScheme.surface,
+                        modifier = Modifier.size(16.dp)
                     )
                 }
             }

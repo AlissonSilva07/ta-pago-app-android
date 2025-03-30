@@ -58,7 +58,6 @@ import kotlinx.coroutines.launch
 fun PayScreen(
     modifier: Modifier = Modifier,
     onNavigateToDetails: (String) -> Unit = {},
-    onNavigateToCreate: () -> Unit = {},
     viewModel: ExpensesViewModel = hiltViewModel()
 ) {
     val expensesState = viewModel.state.collectAsState()
@@ -81,45 +80,13 @@ fun PayScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Todos os Gastos",
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onSurface,
-            fontWeight = FontWeight.Bold
+        CustomSearchBar(
+            value = expensesState.value.search ?: "",
+            onValueChange = {
+                viewModel.onEvent(ExpensesEvent.UpdateSearch(it))
+            },
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(Modifier.height(16.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            CustomSearchBar(
-                value = expensesState.value.search ?: "",
-                onValueChange = {
-                    viewModel.onEvent(ExpensesEvent.UpdateSearch(it))
-                },
-                modifier = Modifier.weight(1f)
-            )
-            IconButton(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(16.dp)),
-                colors = IconButtonColors(
-                    contentColor = MaterialTheme.colorScheme.surface,
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    disabledContentColor = MaterialTheme.colorScheme.secondary,
-                    disabledContainerColor = MaterialTheme.colorScheme.onSurface
-                ),
-                onClick = {
-                    onNavigateToCreate()
-                }
-            ) {
-                Icon(
-                    imageVector = Lucide.Plus,
-                    contentDescription = "Icon",
-                    tint = MaterialTheme.colorScheme.surface,
-                )
-            }
-        }
         Spacer(Modifier.height(8.dp))
         LazyRow {
             items(chipTypes) { item ->

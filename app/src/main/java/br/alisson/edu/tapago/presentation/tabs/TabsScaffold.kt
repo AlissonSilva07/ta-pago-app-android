@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +44,7 @@ import br.alisson.edu.tapago.presentation.tabs.pay.PayItemDetailsScreen
 import br.alisson.edu.tapago.presentation.tabs.pay.PayScreen
 import com.composables.icons.lucide.ChevronLeft
 import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Plus
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -54,7 +57,7 @@ fun TabsScaffold() {
     val currentRoute = navBackStackEntry.value?.destination?.route
     val title = when (currentRoute) {
         BottomNavItem.Home.route -> "Home"
-        PayRoutes.Pay -> "Gastos"
+        PayRoutes.Pay -> "Todos os Gastos"
         PayRoutes.PayCreate -> "Novo Gasto"
         PayRoutes.PayItemDetails -> "Detalhes do Gasto"
         BottomNavItem.Menu.route -> "Menu"
@@ -73,6 +76,24 @@ fun TabsScaffold() {
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.surface,
                     actionColor = MaterialTheme.colorScheme.surface
+                )
+            }
+        },
+        floatingActionButton = {
+            if (currentRoute == PayRoutes.Pay) {
+                FloatingActionButton(
+                    content = {
+                        Icon(
+                            imageVector = Lucide.Plus,
+                            contentDescription = "Add",
+                            modifier = Modifier.size(24.dp)
+                        )
+                    },
+                    onClick = {
+                        tabNavController.navigate(PayRoutes.PayCreate)
+                    },
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.surface
                 )
             }
         },
@@ -143,9 +164,6 @@ fun TabsScaffold() {
                     modifier = Modifier.padding(padding),
                     onNavigateToDetails = { itemId ->
                         tabNavController.navigate(PayRoutes.getPayItemDetailsRoute(itemId))
-                    },
-                    onNavigateToCreate = {
-                        tabNavController.navigate(PayRoutes.PayCreate)
                     }
                 )
             }

@@ -46,15 +46,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseRequest
 import br.alisson.edu.tapago.presentation.components.ButtonVariant
 import br.alisson.edu.tapago.presentation.components.CustomButton
 import br.alisson.edu.tapago.presentation.components.CustomTextField
 import br.alisson.edu.tapago.presentation.components.TextFieldType
 import br.alisson.edu.tapago.presentation.utils.Constants.categories
 import br.alisson.edu.tapago.presentation.utils.formatDateAdapter
-import br.alisson.edu.tapago.data.remote.dto.expenses.PostExpenseRequest
-import br.alisson.edu.tapago.presentation.ui.expenses.ExpensesEvent
-import br.alisson.edu.tapago.presentation.ui.expenses.ExpensesViewModel
 import com.composables.icons.lucide.ChevronRight
 import com.composables.icons.lucide.Lucide
 import java.time.Instant
@@ -74,7 +72,7 @@ fun PayCreateScreen(
     modifier: Modifier = Modifier,
     onNavigateBack: () -> Unit = {},
     showSnackbar: (String) -> Unit,
-    viewModel: ExpensesViewModel = hiltViewModel()
+    viewModel: PayCreateScreenViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
 
@@ -103,11 +101,11 @@ fun PayCreateScreen(
     )
 
     fun submit(expense: PostExpenseRequest) {
-        viewModel.onEvent(ExpensesEvent.SaveExpense(expense))
+        viewModel.onEvent(PayCreateScreenEvent.SaveExpense(expense))
     }
 
     fun reset() {
-        viewModel.onEvent(ExpensesEvent.ResetForm)
+        viewModel.onEvent(PayCreateScreenEvent.ResetForm)
         customCategoryLabel = "Selecione uma categoria"
         dateLabel = "Selecione uma data"
     }
@@ -128,7 +126,15 @@ fun PayCreateScreen(
                     label = "Nome:",
                     type = TextFieldType.DEFAULT,
                     value = state.value.formExpense?.title ?: "",
-                    onValueChange = { viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(title = it)!!))},
+                    onValueChange = {
+                        viewModel.onEvent(
+                            PayCreateScreenEvent.UpdateForm(
+                                state.value.formExpense?.copy(
+                                    title = it
+                                )!!
+                            )
+                        )
+                    },
                 )
                 CustomTextField(
                     label = "Valor:",
@@ -139,9 +145,21 @@ fun PayCreateScreen(
                     onValueChange = { newValue ->
                         val newAmount = newValue.toIntOrNull()
                         newAmount?.let {
-                            viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(amount = it)!!))
+                            viewModel.onEvent(
+                                PayCreateScreenEvent.UpdateForm(
+                                    state.value.formExpense?.copy(
+                                        amount = it
+                                    )!!
+                                )
+                            )
                         } ?: run {
-                            viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(amount = 0)!!))
+                            viewModel.onEvent(
+                                PayCreateScreenEvent.UpdateForm(
+                                    state.value.formExpense?.copy(
+                                        amount = 0
+                                    )!!
+                                )
+                            )
                         }
                     },
                 )
@@ -149,7 +167,15 @@ fun PayCreateScreen(
                     label = "Descrição:",
                     type = TextFieldType.DEFAULT,
                     value = state.value.formExpense?.description ?: "",
-                    onValueChange = { viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(description = it)!!)) },
+                    onValueChange = {
+                        viewModel.onEvent(
+                            PayCreateScreenEvent.UpdateForm(
+                                state.value.formExpense?.copy(
+                                    description = it
+                                )!!
+                            )
+                        )
+                    },
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -285,7 +311,13 @@ fun PayCreateScreen(
                             disabled = false,
                             onClick = {
                                 customCategoryLabel = category.label
-                                viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(category = customCategoryLabel)!!))
+                                viewModel.onEvent(
+                                    PayCreateScreenEvent.UpdateForm(
+                                        state.value.formExpense?.copy(
+                                            category = customCategoryLabel
+                                        )!!
+                                    )
+                                )
                                 isOpenCategoryModal = false
                             }
                         )
@@ -419,7 +451,9 @@ fun PayCreateScreen(
                     disabledSelectedDayContainerColor = MaterialTheme.colorScheme.surface,
                     todayContentColor = MaterialTheme.colorScheme.primary,
                     todayDateBorderColor = MaterialTheme.colorScheme.primary,
-                    dayInSelectionRangeContainerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.4f),
+                    dayInSelectionRangeContainerColor = MaterialTheme.colorScheme.tertiary.copy(
+                        alpha = 0.4f
+                    ),
                     dayInSelectionRangeContentColor = MaterialTheme.colorScheme.surface,
                     dividerColor = MaterialTheme.colorScheme.inverseOnSurface,
                     dateTextFieldColors = TextFieldColors(
@@ -479,7 +513,13 @@ fun PayCreateScreen(
                         .atOffset(ZoneOffset.UTC)
                         .format(DateTimeFormatter.ISO_INSTANT)
                     dateLabel = formatDateAdapter(extractedISODate)
-                    viewModel.onEvent(ExpensesEvent.UpdateForm(state.value.formExpense?.copy(dueDate = extractedISODate)!!))
+                    viewModel.onEvent(
+                        PayCreateScreenEvent.UpdateForm(
+                            state.value.formExpense?.copy(
+                                dueDate = extractedISODate
+                            )!!
+                        )
+                    )
                 }
             }
         }

@@ -34,7 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.alisson.edu.tapago.presentation.components.BottomNavBar
 import br.alisson.edu.tapago.presentation.components.BottomNavItem
-import br.alisson.edu.tapago.presentation.components.PayRoutes
+import br.alisson.edu.tapago.presentation.navigation.Screen.PayRoutes
 import br.alisson.edu.tapago.presentation.ui.create.PayCreateScreen
 import br.alisson.edu.tapago.presentation.ui.details.PayItemDetailsScreen
 import br.alisson.edu.tapago.presentation.ui.home.HomeScreen
@@ -155,7 +155,7 @@ fun TabsScaffold() {
     ) { padding ->
         NavHost(
             navController = tabNavController,
-            startDestination = BottomNavItem.Home.route
+            startDestination = BottomNavItem.Home.route,
         ) {
             composable(BottomNavItem.Home.route) {
                 HomeScreen(

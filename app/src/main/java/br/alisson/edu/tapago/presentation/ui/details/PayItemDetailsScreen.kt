@@ -43,8 +43,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.alisson.edu.tapago.presentation.components.ButtonVariant
 import br.alisson.edu.tapago.presentation.components.CustomButton
-import br.alisson.edu.tapago.presentation.ui.expenses.ExpensesEvent
-import br.alisson.edu.tapago.presentation.ui.expenses.ExpensesViewModel
 import com.composables.icons.lucide.HousePlug
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.TriangleAlert
@@ -57,7 +55,7 @@ fun PayItemDetailsScreen(
     itemId: String?,
     onNavigateBack: () -> Unit,
     showSnackbar: (String) -> Unit,
-    viewModel: ExpensesViewModel = hiltViewModel()
+    viewModel: PayItemsDetailsScreenViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
     val expense = state.value.expenseById
@@ -69,7 +67,7 @@ fun PayItemDetailsScreen(
     LaunchedEffect(Unit) {
         Log.d("PayItemDetailsScreen", "PayItemDetailsScreen: $itemId")
         if (itemId != null) {
-            viewModel.onEvent(ExpensesEvent.GetExpenseById(itemId))
+            viewModel.onEvent(PayItemsDetailsScreenEvent.GetExpenseById(itemId))
         }
     }
 
@@ -151,7 +149,7 @@ fun PayItemDetailsScreen(
                     disabled = false,
                     onClick = {
                         if (expense != null) {
-                            viewModel.onEvent(ExpensesEvent.PayExpenseById(expense.id))
+                            viewModel.onEvent(PayItemsDetailsScreenEvent.PayExpenseById(expense.id))
                             isDeleteDialogOpen = false
                             onNavigateBack()
                             showSnackbar("Parabéns! Gasto pago com sucesso!")
@@ -216,7 +214,7 @@ fun PayItemDetailsScreen(
                         TextButton(
                             onClick = {
                                 if (expense != null) {
-                                    viewModel.onEvent(ExpensesEvent.DeleteExpenseById(expense.id))
+                                    viewModel.onEvent(PayItemsDetailsScreenEvent.DeleteExpenseById(expense.id))
                                     isDeleteDialogOpen = false
                                     onNavigateBack()
                                     showSnackbar("Gasto excluído com sucesso!")

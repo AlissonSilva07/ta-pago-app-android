@@ -20,11 +20,12 @@ import coil.compose.AsyncImage
 
 @Composable
 fun HomeHeader(
+    modifier: Modifier = Modifier,
     name: String? = null,
     avatar: ByteArray? = null
 ) {
     Row (
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -203,6 +203,7 @@ fun TabsScaffold() {
                             end = 16.dp
                         ),
                     onNavigateBack = {
+                        tabNavController.popBackStack(PayRoutes.Pay, inclusive = true)
                         tabNavController.navigate(PayRoutes.Pay)
                     },
                     showSnackbar = { message ->

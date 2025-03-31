@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -126,6 +127,10 @@ fun PayCreateScreen(
                     label = "Nome:",
                     type = TextFieldType.DEFAULT,
                     value = state.value.formExpense?.title ?: "",
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text,
+                        capitalization = KeyboardCapitalization.Sentences
+                    ),
                     onValueChange = {
                         viewModel.onEvent(
                             PayCreateScreenEvent.UpdateForm(
@@ -167,6 +172,10 @@ fun PayCreateScreen(
                     label = "Descrição:",
                     type = TextFieldType.DEFAULT,
                     value = state.value.formExpense?.description ?: "",
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text,
+                        capitalization = KeyboardCapitalization.Sentences
+                    ),
                     onValueChange = {
                         viewModel.onEvent(
                             PayCreateScreenEvent.UpdateForm(
